@@ -9,13 +9,25 @@
     <servlet>
         <servlet-name>ServletPompier</servlet-name>
         <servlet-class>bts.sio.codecafe.servlet.ServletPompier</servlet-class>
-    </servlet>
+    </servlet>  
     <servlet-mapping>
         <servlet-name>ServletPompier</servlet-name>
         <url-pattern>/ServletPompier/*</url-pattern>
         <url-pattern>/ServletPompier/listerPompiers</url-pattern>
         <url-pattern>/ServletPompier/consulterPompier</url-pattern>
         <url-pattern>/ServletPompier/addPompiers</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletCaserne</servlet-name>
+        <servlet-class>bts.sio.codecafe.servlet.ServletCaserne</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletCaserne</servlet-name>
+        <url-pattern>/ServletCaserne</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCaserne</servlet-name>
+        <url-pattern>/ServletCaserne/lister</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

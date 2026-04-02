@@ -1,5 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList, bts.sio.codecafe.model.Pompier"%>
+<%@page import="bts.sio.codecafe.model.Pompier"%>
+<%@page import="bts.sio.codecafe.model.Caserne"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
     <head>

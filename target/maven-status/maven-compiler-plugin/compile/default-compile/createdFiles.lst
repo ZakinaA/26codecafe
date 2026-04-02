@@ -6,6 +6,7 @@ bts\sio\codecafe\test\TestDaoPompier.class
 bts\sio\codecafe\JakartaRestConfiguration.class
 bts\sio\codecafe\model\Caserne.class
 bts\sio\codecafe\test\TestDaoCaserne.class
+bts\sio\codecafe\servlet\ServletCaserne.class
 bts\sio\codecafe\database\InitConnexion.class
 bts\sio\codecafe\resources\JakartaEE10Resource.class
 bts\sio\codecafe\database\DaoPompier.class
