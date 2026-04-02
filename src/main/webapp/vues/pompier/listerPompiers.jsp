@@ -5,8 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="model.Pompier"%>
-<%@page import="model.Caserne"%>
+<%@page import="bts.sio.codecafe.model.Pompier"%>
+<%@page import="bts.sio.codecafe.model.Caserne"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
