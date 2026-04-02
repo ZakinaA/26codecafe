@@ -17,19 +17,39 @@ public class TestDaoIntervention {
 
         Connection cnx = ConnexionBdd.ouvrirConnexion();
 
-        // Test : récupérer toutes les interventions
+        // 1. Nombre d'interventions
         System.out.println("Nombre d'interventions = "
                 + DaoIntervention.getLesInterventions(cnx).size());
 
-        // Test : récupérer une intervention par ID
+        // 2. Récupération par ID
         Intervention inter = DaoIntervention.getInterventionById(cnx, 1);
+
         if (inter != null) {
-            System.out.println("Intervention 1 : ville = " + inter.getVille());
+            System.out.println("Intervention récupérée : ville = " + inter.getVille());
+
+            // 3. Modification des données
+            inter.setVille("Rouen");
+            inter.setRue("Rue modifiée");
+            inter.setCopos("76000");
+
+            // 4. Test update
+            int result = DaoIntervention.updateInterventionById(cnx, inter);
+
+            if (result == 1) {
+                System.out.println("Update réussi ✅");
+            } else {
+                System.out.println("Update échoué ❌");
+            }
+
+            // 5. Vérification après update
+            Intervention interUpdated = DaoIntervention.getInterventionById(cnx, 1);
+            System.out.println("Après update -> ville = " + interUpdated.getVille());
+
         } else {
             System.out.println("Aucune intervention trouvée avec l'id 1");
         }
 
-        // Test : ajouter une intervention
+        // 6. Test ajout
         Intervention newInter = new Intervention();
         newInter.setRue("Rue de Paris");
         newInter.setCopos("76600");

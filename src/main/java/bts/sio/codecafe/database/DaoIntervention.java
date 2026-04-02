@@ -81,13 +81,7 @@ public class DaoIntervention {
         try {
             requeteSql = connection.prepareStatement("INSERT INTO intervention (rue, copos, ville, heure_appel, heure_arrivee, duree, archive)" +
                     " VALUES (?, ?, ?, ?, ?, ?, ?)", requeteSql.RETURN_GENERATED_KEYS);
-            requeteSql.setString(1, i.getRue());
-            requeteSql.setString(2, i.getCopos());
-            requeteSql.setString(3, i.getVille());
-            requeteSql.setTime(4, Time.valueOf(i.getHeureAppel()));
-            requeteSql.setTime(5, Time.valueOf(i.getHeureArrivee()));
-            requeteSql.setInt(6, i.getDuree());
-            requeteSql.setInt(7, i.getArchive());
+            setParametersIntervention(i);
 
             requeteSql.executeUpdate();
 
@@ -99,7 +93,44 @@ public class DaoIntervention {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("La requête de addIntervention a généré une erreur");
         }
         return i;
+    }
+
+    public static int updateInterventionById(Connection connection, Intervention i) {
+        int rs = 0;
+
+        try {
+            requeteSql = connection.prepareStatement("UPDATE intervention SET rue = ?, copos = ?," +
+                    " ville = ?, heure_appel = ?, heure_arrivee = ?, duree = ?, archive = ? " +
+                    "WHERE intervention.id = ?");
+            setParametersIntervention(i);
+            requeteSql.setInt(8, i.getId());
+
+            rs = requeteSql.executeUpdate();
+
+            if (rs == 1) {
+                System.out.println("Mise à jour OK");
+            } else if (rs == 0) {
+                System.out.println("Aucune ligne mise à jour");
+            } else {
+                System.out.println("Attention : plusieurs lignes modifiées !");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("La requête de updateInterventionById a généré une erreur");
+        }
+        return rs;
+    }
+
+    private static void setParametersIntervention(Intervention i) throws SQLException {
+        requeteSql.setString(1, i.getRue());
+        requeteSql.setString(2, i.getCopos());
+        requeteSql.setString(3, i.getVille());
+        requeteSql.setTime(4, Time.valueOf(i.getHeureAppel()));
+        requeteSql.setTime(5, Time.valueOf(i.getHeureArrivee()));
+        requeteSql.setInt(6, i.getDuree());
+        requeteSql.setInt(7, i.getArchive());
     }
 }
