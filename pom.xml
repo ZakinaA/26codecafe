@@ -5,7 +5,7 @@
     <artifactId>26CodeCafe</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>26CodeCafe-1.0-SNAPSHOT</name>
+    <name>26CodeCafe</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,6 +27,7 @@
     </dependencies>
     
     <build>
+        <finalName>26CodeCafe</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
