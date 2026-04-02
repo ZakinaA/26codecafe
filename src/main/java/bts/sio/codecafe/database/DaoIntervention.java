@@ -3,7 +3,6 @@ package bts.sio.codecafe.database;
 import bts.sio.codecafe.model.Intervention;
 
 import java.sql.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +31,7 @@ public class DaoIntervention {
                 i.setRue(resultatRequete.getString("i_rue"));
                 i.setCopos(resultatRequete.getString("i_copos"));
                 i.setVille(resultatRequete.getString("i_ville"));
-                i.setHeureArrivee(resultatRequete.getTime("i_heure_appel").toLocalTime());
+                i.setHeureAppel(resultatRequete.getTime("i_heure_appel").toLocalTime());
                 i.setHeureArrivee(resultatRequete.getTime("i_heure_arrivee").toLocalTime());
                 i.setDuree(resultatRequete.getInt("i_duree"));
                 i.setArchive(resultatRequete.getInt("i_archive"));
@@ -64,7 +63,7 @@ public class DaoIntervention {
                 i.setRue(resultatRequete.getString("i_rue"));
                 i.setCopos(resultatRequete.getString("i_copos"));
                 i.setVille(resultatRequete.getString("i_ville"));
-                i.setHeureArrivee(resultatRequete.getTime("i_heure_appel").toLocalTime());
+                i.setHeureAppel(resultatRequete.getTime("i_heure_appel").toLocalTime());
                 i.setHeureArrivee(resultatRequete.getTime("i_heure_arrivee").toLocalTime());
                 i.setDuree(resultatRequete.getInt("i_duree"));
                 i.setArchive(resultatRequete.getInt("i_archive"));
