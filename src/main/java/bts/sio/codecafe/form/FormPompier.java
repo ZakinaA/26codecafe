@@ -62,7 +62,7 @@ public class FormPompier {
          
         String nom = getDataForm( request, "nom" );
         String prenom = getDataForm( request, "prenom");
-        int idPompier = Integer.parseInt((String)getDataForm( request, "idPompier" ));
+        int idPompier = Integer.parseInt((String)getDataForm( request, "idCaserne" ));
        
       
         try {

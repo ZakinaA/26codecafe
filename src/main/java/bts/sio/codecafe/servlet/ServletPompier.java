@@ -80,7 +80,7 @@ public class ServletPompier extends HttpServlet {
          String url = request.getRequestURI();  
        
         // Récup et affichage les eleves 
-        if(url.equals("/sdisweb/ServletPompier/lister"))
+        if(url.equals("/26CodeCafe/ServletPompier/listerPompiers"))
         {              
             ArrayList<Pompier> lesPompiers = DaoPompier.getLesPompiers(cnx);
             request.setAttribute("pLesPompiers", lesPompiers);
@@ -89,7 +89,7 @@ public class ServletPompier extends HttpServlet {
         }
         
          // Récup et affichage des clients interessés par une certaine catégorie de ventes
-        if(url.equals("/sdisweb/ServletPompier/consulter"))
+        if(url.equals("/26CodeCafe/ServletPompier/consulterPompier"))
         {  
             // tout paramètre récupéré de la request Http est de type String
             // Il est donc nécessaire de caster le paramètre idPompier en int
@@ -102,7 +102,7 @@ public class ServletPompier extends HttpServlet {
            
         }
         
-        if(url.equals("/sdisweb/ServletPompier/ajouter"))
+        if(url.equals("/26CodeCafe/ServletPompier/ajouterPompier"))
         {                   
             ArrayList<Caserne> lesCasernes = DaoCaserne.getLesCasernes(cnx);
             request.setAttribute("pLesCasernes", lesCasernes);
@@ -131,6 +131,7 @@ public class ServletPompier extends HttpServlet {
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
         Pompier p = form.ajouterPompier(request);
         
+        
         /* Stockage du formulaire et de l'objet dans l'objet request */
         request.setAttribute( "form", form );
         request.setAttribute( "pPompier", p );
@@ -155,8 +156,6 @@ public class ServletPompier extends HttpServlet {
             request.setAttribute("pLesCasernes", lesCasernes);
             this.getServletContext().getRequestDispatcher("/vues/pompier/ajouterPompier.jsp" ).forward( request, response );
         }
-        
-        
         
         
         

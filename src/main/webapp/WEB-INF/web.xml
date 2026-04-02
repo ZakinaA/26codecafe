@@ -3,9 +3,24 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
    version="6.0">
+    <listener>
+        <listener-class>bts.sio.codecafe.database.InitConnexion</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>ServletPompier</servlet-name>
+        <servlet-class>bts.sio.codecafe.servlet.ServletPompier</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletPompier</servlet-name>
+        <url-pattern>/ServletPompier/*</url-pattern>
+        <url-pattern>/ServletPompier/listerPompiers</url-pattern>
+        <url-pattern>/ServletPompier/consulterPompier</url-pattern>
+        <url-pattern>/ServletPompier/addPompiers</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
 </web-app>

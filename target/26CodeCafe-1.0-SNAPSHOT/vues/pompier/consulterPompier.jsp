@@ -1,29 +1,28 @@
-<%-- 
-    Document   : consulterPompier
-    Created on : 18 mars 2024, 12:03:07
-    Author     : zakina
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="model.Pompier"%>
+<%@page import="bts.sio.codecafe.model.Pompier"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>SDIS WEB</title>
+        <title>Fiche pompier</title>
     </head>
     <body>
+        <h1>Fiche pompier</h1>
+        
         <%
-            Pompier p = (Pompier)request.getAttribute("pPompier");
+            Pompier p = (Pompier) request.getAttribute("pPompier");
+            if (p != null) {
         %>
-        <h1>Bienvenue <%  out.println(p.getPrenom());%>  <%  out.println(p.getNom());%></h1>
-        <table>
-            <tr>
-                <td>Numero Bip : </td><td>bip bip</td>
-            </tr>
-            <tr>
-                <td>Caserne : </td><td><%  out.println(p.getUneCaserne().getNom());%></td>
-            </tr>
-        </table>
+        <div class="fiche">
+            <p><span class="label">ID :</span> <%= p.getId() %></p>
+            <p><span class="label">Nom :</span> <%= p.getNom() %></p>
+            <p><span class="label">Prénom :</span> <%= p.getPrenom() %></p>
+            <p><span class="label">Caserne :</span> <%= p.getUneCaserne().getNom() %></p>
+        </div>
+        <% } else { %>
+            <p style="color:red;">Pompier introuvable.</p>
+        <% } %>
+        
+        <a href="${pageContext.request.contextPath}/ServletPompier/listerPompiers">← Retour à la liste</a>
     </body>
 </html>
