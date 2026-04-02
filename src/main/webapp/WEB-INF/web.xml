@@ -29,6 +29,16 @@
         <servlet-name>ServletCaserne</servlet-name>
         <url-pattern>/ServletCaserne/lister</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletIntervention</servlet-name>
+        <servlet-class>bts.sio.codecafe.servlet.ServletIntervention</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletIntervention</servlet-name>
+        <url-pattern>/ServletIntervention/*</url-pattern>
+        <url-pattern>/ServletIntervention/listerInterventions</url-pattern>
+        <url-pattern>/ServletIntervention/consulterIntervention</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

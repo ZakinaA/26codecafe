@@ -66,7 +66,7 @@ public class ServletIntervention extends HttpServlet {
         if (url.equals("/26CodeCafe/ServletIntervention/lister")) {
             ArrayList<Intervention> lesInterventions = DaoIntervention.getLesInterventions(cnx);
             request.setAttribute("pLesInterventions", lesInterventions);
-            getServletContext().getRequestDispatcher("/vues/intervention/lister.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/vues/intervention/listerInterventions.jsp").forward(request, response);
         }
 
         if (url.equals("/26CodeCafe/ServletIntervention/consulter")) {
@@ -74,7 +74,7 @@ public class ServletIntervention extends HttpServlet {
             System.out.println("intervention à afficher = " + idIntervention);
             Intervention c = DaoIntervention.getInterventionById(cnx, idIntervention);
             request.setAttribute("pIntervention", c);
-            getServletContext().getRequestDispatcher("/vues/intervention/consulter.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/vues/intervention/consulterIntervention.jsp").forward(request, response);
 
 
         }
