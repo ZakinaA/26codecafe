@@ -27,15 +27,8 @@ public class DaoIntervention {
 
             while (resultatRequete.next()) {
                 Intervention i = new Intervention();
-                i.setId(resultatRequete.getInt("i_id"));
-                i.setRue(resultatRequete.getString("i_rue"));
-                i.setCopos(resultatRequete.getString("i_copos"));
-                i.setVille(resultatRequete.getString("i_ville"));
-                i.setHeureAppel(resultatRequete.getTime("i_heure_appel").toLocalTime());
-                i.setHeureArrivee(resultatRequete.getTime("i_heure_arrivee").toLocalTime());
-                i.setDuree(resultatRequete.getInt("i_duree"));
-                i.setArchive(resultatRequete.getInt("i_archive"));
-                
+                mapResultSetToIntervention(i);
+
                 lesInterventions.add(i);
             }
 
@@ -59,14 +52,7 @@ public class DaoIntervention {
 
             if (resultatRequete.next()) {
                 i = new Intervention();
-                i.setId(resultatRequete.getInt("i_id"));
-                i.setRue(resultatRequete.getString("i_rue"));
-                i.setCopos(resultatRequete.getString("i_copos"));
-                i.setVille(resultatRequete.getString("i_ville"));
-                i.setHeureAppel(resultatRequete.getTime("i_heure_appel").toLocalTime());
-                i.setHeureArrivee(resultatRequete.getTime("i_heure_arrivee").toLocalTime());
-                i.setDuree(resultatRequete.getInt("i_duree"));
-                i.setArchive(resultatRequete.getInt("i_archive"));
+                mapResultSetToIntervention(i);
             }
 
         } catch (SQLException e) {
@@ -74,6 +60,17 @@ public class DaoIntervention {
             System.out.println("La requête de getInterventionById a généré une erreur");
         }
         return i;
+    }
+
+    private static void mapResultSetToIntervention(Intervention i) throws SQLException {
+        i.setId(resultatRequete.getInt("i_id"));
+        i.setRue(resultatRequete.getString("i_rue"));
+        i.setCopos(resultatRequete.getString("i_copos"));
+        i.setVille(resultatRequete.getString("i_ville"));
+        i.setHeureAppel(resultatRequete.getTime("i_heure_appel").toLocalTime());
+        i.setHeureArrivee(resultatRequete.getTime("i_heure_arrivee").toLocalTime());
+        i.setDuree(resultatRequete.getInt("i_duree"));
+        i.setArchive(resultatRequete.getInt("i_archive"));
     }
 
     public static Intervention addIntervention(Connection connection, Intervention i) {
