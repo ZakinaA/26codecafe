@@ -16,13 +16,25 @@ public class DaoIntervention {
     static PreparedStatement requeteSql = null;
     static ResultSet resultatRequete = null;
 
-    public static ArrayList<Intervention> getLesInterventions(Connection cnx) {
+    public static ArrayList<Intervention> getLesInterventions(Connection cnx, Integer archive) {
 
         ArrayList<Intervention> lesInterventions = new ArrayList<Intervention>();
         try {
-            requeteSql = cnx.prepareStatement("select i.id as i_id, i.rue as i_rue, i.copos as i_copos," +
+
+            String sql = "select i.id as i_id, i.rue as i_rue, i.copos as i_copos," +
                     " i.ville as i_ville, i.heure_appel as i_heure_appel, i.heure_arrivee as i_heure_arrivee," +
-                    " i.duree as i_duree, i.archive as i_archive from intervention as i");
+                    " i.duree as i_duree, i.archive as i_archive from intervention as i";
+
+            if ( archive != null ) {
+                sql += " where archive = ?";
+            }
+
+            requeteSql = cnx.prepareStatement(sql);
+
+            if (archive != null) {
+                requeteSql.setInt(1, archive);
+            }
+
             resultatRequete = requeteSql.executeQuery();
 
             while (resultatRequete.next()) {

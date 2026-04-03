@@ -13,12 +13,17 @@
 
         <jsp:include page="/vues/components/menu.jsp" />
 
+        <a href="/26CodeCafe/ServletIntervention/lister">Toutes</a> |
+        <a href="/26CodeCafe/ServletIntervention/lister?archive=0">Non archivées</a> |
+        <a href="/26CodeCafe/ServletIntervention/lister?archive=1">Archivées</a>
+
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Adresse</th>
                     <th>Ville</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +37,8 @@
                     <td><%= i.getRue() %><br><%= i.getCopos()%></td>
                     <td><%= i.getVille() %></td>
                     <td>
-                        <a href="/26CodeCafe/ServletIntervention/consulter?idIntervention=<%= i.getId() %>">Consulter</a>
+                        <a href="${pageContext.request.contextPath}/ServletIntervention/consulter?idIntervention=<%= i.getId() %>">Consulter</a>
+                        <a href="${pageContext.request.contextPath}/ServletIntervention/modifier?idIntervention=<%= i.getId() %>">Modifier</a>
                     </td>
                 </tr>
                 <%

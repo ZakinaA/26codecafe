@@ -17,10 +17,6 @@ public class TestDaoIntervention {
 
         Connection cnx = ConnexionBdd.ouvrirConnexion();
 
-        // 1. Nombre d'interventions
-        System.out.println("Nombre d'interventions = "
-                + DaoIntervention.getLesInterventions(cnx).size());
-
         // 2. Récupération par ID
         Intervention inter = DaoIntervention.getInterventionById(cnx, 1);
 

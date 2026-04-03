@@ -72,7 +72,13 @@ public class ServletIntervention extends HttpServlet {
         request.setAttribute("menu", MenuBuilder.getMenu());
 
         if (url.equals("/26CodeCafe/ServletIntervention/lister")) {
-            ArrayList<Intervention> lesInterventions = DaoIntervention.getLesInterventions(cnx);
+            String archiveParam = request.getParameter("archive");
+            Integer archive = null;
+
+            if (archiveParam != null && !archiveParam.isEmpty()) {
+                archive = Integer.parseInt(archiveParam);
+            }
+            ArrayList<Intervention> lesInterventions = DaoIntervention.getLesInterventions(cnx, archive);
             request.setAttribute("pLesInterventions", lesInterventions);
             getServletContext().getRequestDispatcher("/vues/intervention/listerInterventions.jsp").forward(request, response);
         }
