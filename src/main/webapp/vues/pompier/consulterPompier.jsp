@@ -9,6 +9,8 @@
     <body>
         <h1>Fiche pompier</h1>
 
+        <jsp:include page="/vues/components/menu.jsp" />
+
         <%
             Pompier p = (Pompier) request.getAttribute("pPompier");
             if (p != null) {

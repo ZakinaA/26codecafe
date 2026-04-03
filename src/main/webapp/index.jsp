@@ -10,27 +10,6 @@
     <body>
         <h1>Page d'accueil</h1>
 
-        <%
-            Map<String, Map<String, String>> menu = MenuBuilder.getMenu();
-
-            for (Map.Entry<String, Map<String, String>> categorie : menu.entrySet()) {
-        %>
-        <strong><%= categorie.getKey().replace("Servlet", "") %></strong>
-        <ul>
-            <%
-                for (Map.Entry<String, String> lien : categorie.getValue().entrySet()) {
-            %>
-            <li>
-                <a href="/26CodeCafe/<%= categorie.getKey() %>/<%= lien.getValue() %>">
-                    <%= lien.getKey() %>
-                </a>
-            </li>
-            <%
-                }
-            %>
-        </ul>
-        <%
-            }
-        %>
+        <jsp:include page="/vues/components/menu.jsp" />
     </body>
 </html>

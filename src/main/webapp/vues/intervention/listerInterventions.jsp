@@ -11,6 +11,8 @@
     <body>
         <h1>Liste des interventions</h1>
 
+        <jsp:include page="/vues/components/menu.jsp" />
+
         <table>
             <thead>
                 <tr>

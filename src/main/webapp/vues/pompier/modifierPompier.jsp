@@ -8,7 +8,8 @@
     </head>
     <body>
         <h1>Modifier un pompier</h1>
-        
+
+        <jsp:include page="/vues/components/menu.jsp" />
 
         <form method="post" action="/26CodeCafe/ServletPompier/ajouterPompier">
             <label>Nom</label>

@@ -9,6 +9,8 @@
     <body>
         <h1>Modifier un intervention</h1>
 
+        <jsp:include page="/vues/components/menu.jsp" />
+
         <% Intervention i = (Intervention) request.getAttribute("pIntervention"); %>
 
         <form method="post" action="/26CodeCafe/ServletIntervention/modifier">

@@ -12,6 +12,8 @@
     <body>
         <h1>Liste des pompiers</h1>
 
+        <jsp:include page="/vues/components/menu.jsp" />
+
         <a class="btn" href="/26CodeCafe/ServletPompier/ajouterPompier">+ Ajouter un pompier</a>
 
         <table>

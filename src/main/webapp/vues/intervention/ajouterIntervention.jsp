@@ -8,6 +8,8 @@
     <body>
         <h1>Ajouter un intervention</h1>
 
+        <jsp:include page="/vues/components/menu.jsp" />
+
         <form method="post" action="/26CodeCafe/ServletIntervention/ajouter">
             <input type="hidden" name="action" value="ajouter">
 

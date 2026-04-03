@@ -9,6 +9,8 @@
     <body>
         <h1>Fiche intervention</h1>
 
+        <jsp:include page="/vues/components/menu.jsp" />
+
         <%
             Intervention i = (Intervention) request.getAttribute("pIntervention");
             if (i != null) {

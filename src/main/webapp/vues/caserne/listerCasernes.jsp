@@ -18,6 +18,9 @@
         <title>APPLICATION DE GESTION SDIS CALVADOS</title>
     </head>
     <h1>Liste des Casernes du Calvados</h1>
+
+        <jsp:include page="/vues/components/menu.jsp" />
+
             <%
                 ArrayList<Caserne> lesCasernes = (ArrayList)request.getAttribute("pLesCasernes");
             %>

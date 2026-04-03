@@ -9,6 +9,8 @@
     <body>
         <h1>Ajouter un pompier</h1>
 
+        <jsp:include page="/vues/components/menu.jsp" />
+
         <form method="post" action="/26CodeCafe/ServletPompier/ajouterPompier">
             <label>Nom</label>
             <input type="text" name="nom">
