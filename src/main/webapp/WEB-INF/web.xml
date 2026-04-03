@@ -36,8 +36,10 @@
     <servlet-mapping>
         <servlet-name>ServletIntervention</servlet-name>
         <url-pattern>/ServletIntervention/*</url-pattern>
-        <url-pattern>/ServletIntervention/listerInterventions</url-pattern>
-        <url-pattern>/ServletIntervention/consulterIntervention</url-pattern>
+        <url-pattern>/ServletIntervention/lister</url-pattern>
+        <url-pattern>/ServletIntervention/consulter</url-pattern>
+        <url-pattern>/ServletIntervention/ajouter</url-pattern>
+        <url-pattern>/ServletIntervention/modifier</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

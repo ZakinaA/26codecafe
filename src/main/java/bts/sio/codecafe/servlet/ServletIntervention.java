@@ -1,6 +1,11 @@
 package bts.sio.codecafe.servlet;
 
+import bts.sio.codecafe.database.DaoCaserne;
 import bts.sio.codecafe.database.DaoIntervention;
+import bts.sio.codecafe.database.DaoIntervention;
+import bts.sio.codecafe.form.FormIntervention;
+import bts.sio.codecafe.model.Caserne;
+import bts.sio.codecafe.model.Intervention;
 import bts.sio.codecafe.model.Intervention;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -75,9 +80,21 @@ public class ServletIntervention extends HttpServlet {
             Intervention c = DaoIntervention.getInterventionById(cnx, idIntervention);
             request.setAttribute("pIntervention", c);
             getServletContext().getRequestDispatcher("/vues/intervention/consulterIntervention.jsp").forward(request, response);
-
-
         }
+
+        if(url.equals("/26CodeCafe/ServletIntervention/ajouter")) {
+            this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp" ).forward( request, response );
+        }
+
+        if(url.equals("/26CodeCafe/ServletIntervention/modifier")) {
+            int idIntervention = Integer.parseInt((String) request.getParameter("idIntervention"));
+            System.out.println("intervention à afficher = " + idIntervention);
+            Intervention i = DaoIntervention.getInterventionById(cnx, idIntervention);
+            request.setAttribute("pIntervention", i);
+            this.getServletContext().getRequestDispatcher("/vues/intervention/modifierIntervention.jsp" ).forward( request, response );
+        }
+
+
     }
 
     /**
@@ -92,6 +109,47 @@ public class ServletIntervention extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        FormIntervention form = new FormIntervention();
+
+        /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
+        Intervention i = form.remplirIntervention(request);
+
+        /* Stockage du formulaire et de l'objet dans l'objet request */
+        request.setAttribute("form", form);
+        request.setAttribute("pIntervention", i);
+
+        String action = request.getParameter("action");
+
+        if (form.getErreurs().isEmpty()) {
+            if ( "ajouter".equals(action) ) {
+                Intervention interventionInsere = DaoIntervention.addIntervention(cnx, i);
+                if (interventionInsere != null) {
+                    request.setAttribute("pIntervention", interventionInsere);
+
+                    this.getServletContext().getRequestDispatcher("/vues/intervention/consulterIntervention.jsp").forward(request, response);
+                } else {
+                    // Cas oùl'insertion en bdd a échoué
+                    //renvoyer vers une page d'erreur
+                }
+            } else if ( "modifier".equals(action) ) {
+                int resultatModif = DaoIntervention.updateInterventionById(cnx, i);
+                if ( resultatModif == 1 ) {
+                    Intervention interventionModifie = DaoIntervention.getInterventionById(cnx, i.getId());
+                    request.setAttribute("pIntervention", interventionModifie);
+
+                    this.getServletContext().getRequestDispatcher("/vues/intervention/consulterIntervention.jsp").forward(request, response);
+                }
+            } else {
+                // il y a des erreurs. On réaffiche le formulaire avec des messages d'erreurs
+                if ( "ajouter".equals(action) ) {
+                    this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("pIntervention", i);
+
+                    this.getServletContext().getRequestDispatcher("/vues/intervention/modifierIntervention.jsp").forward(request, response);
+                }
+            }
+        }
     }
 
     /**
