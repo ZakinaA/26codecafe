@@ -7,6 +7,7 @@ import bts.sio.codecafe.form.FormIntervention;
 import bts.sio.codecafe.model.Caserne;
 import bts.sio.codecafe.model.Intervention;
 import bts.sio.codecafe.model.Intervention;
+import bts.sio.codecafe.utils.MenuBuilder;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -67,6 +68,8 @@ public class ServletIntervention extends HttpServlet {
             throws ServletException, IOException {
         String url = request.getRequestURI();
         System.out.println("Passage dans la Servlet avec l'URL : " + request.getRequestURI());
+
+        request.setAttribute("menu", MenuBuilder.getMenu());
 
         if (url.equals("/26CodeCafe/ServletIntervention/lister")) {
             ArrayList<Intervention> lesInterventions = DaoIntervention.getLesInterventions(cnx);

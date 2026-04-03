@@ -7,6 +7,7 @@ package bts.sio.codecafe.servlet;
 import bts.sio.codecafe.database.DaoCaserne;
 import bts.sio.codecafe.database.DaoPompier;
 import bts.sio.codecafe.form.FormPompier;
+import bts.sio.codecafe.utils.MenuBuilder;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -77,7 +78,9 @@ public class ServletPompier extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-         String url = request.getRequestURI();  
+         String url = request.getRequestURI();
+
+        request.setAttribute("menu", MenuBuilder.getMenu());
        
         // Récup et affichage les eleves 
         if(url.equals("/26CodeCafe/ServletPompier/listerPompiers"))

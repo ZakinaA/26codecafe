@@ -6,6 +6,7 @@ package bts.sio.codecafe.servlet;
 
 import bts.sio.codecafe.database.DaoCaserne;
 import bts.sio.codecafe.model.Caserne;
+import bts.sio.codecafe.utils.MenuBuilder;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -64,7 +65,9 @@ public class ServletCaserne extends HttpServlet {
             throws ServletException, IOException {
         String url = request.getRequestURI();
         System.out.println("Passage dans la Servlet avec l'URL : " + request.getRequestURI());
-       
+
+        request.setAttribute("menu", MenuBuilder.getMenu());
+
         if(url.equals("/26CodeCafe/ServletCaserne/lister"))
         {              
             ArrayList<Caserne> lesCasernes = DaoCaserne.getLesCasernes(cnx);
