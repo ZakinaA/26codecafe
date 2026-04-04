@@ -32,6 +32,12 @@ public class MenuBuilder {
         pompierMenu.put("Ajouter", "ajouter");
         menu.put("ServletPompier", pompierMenu);
 
+        // Situation
+        Map<String, String> situationMenu = new LinkedHashMap<>();
+        pompierMenu.put("Lister", "lister");
+        pompierMenu.put("Ajouter", "ajouter");
+        menu.put("ServletSituation", pompierMenu);
+
         return menu;
     }
 }

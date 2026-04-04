@@ -41,6 +41,18 @@
         <url-pattern>/ServletIntervention/ajouter</url-pattern>
         <url-pattern>/ServletIntervention/modifier</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletSituation</servlet-name>
+        <servlet-class>bts.sio.codecafe.servlet.ServletSituation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletSituation</servlet-name>
+        <url-pattern>/ServletSituation/*</url-pattern>
+        <url-pattern>/ServletSituation/lister</url-pattern>
+        <url-pattern>/ServletSituation/consulter</url-pattern>
+        <url-pattern>/ServletSituation/ajouter</url-pattern>
+        <url-pattern>/ServletSituation/modifier</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
