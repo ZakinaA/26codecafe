@@ -1,5 +1,7 @@
 package bts.sio.codecafe.model;
 
+import java.util.ArrayList;
+
 /**
  * Author: JoackimV
  * Created: 04/04/2026 00:40
@@ -9,6 +11,7 @@ public class Situation {
     private int id;
     private String libelle;
     private int archive;
+    private ArrayList<Intervention> lesInterventions;
 
     public Situation() {
     }
@@ -39,5 +42,21 @@ public class Situation {
 
     public void setArchive(int archive) {
         this.archive = archive;
+    }
+
+
+    public ArrayList<Intervention> getLesInterventions() {
+        return lesInterventions;
+    }
+
+    public void setLesInterventions(ArrayList<Intervention> lesInterventions) {
+        this.lesInterventions = lesInterventions;
+    }
+
+    public void addIntervention(Intervention p){
+        if (lesInterventions == null){
+            lesInterventions = new ArrayList<Intervention>();
+        }
+        lesInterventions.add(p);
     }
 }

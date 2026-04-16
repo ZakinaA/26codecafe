@@ -16,6 +16,8 @@ public class Intervention {
     private LocalTime heureArrivee;
     private int duree;
     private int archive;
+    // Relation situation
+    private Situation uneSituation;
 
     public Intervention() {
     }
@@ -86,5 +88,13 @@ public class Intervention {
 
     public void setArchive(int archive) {
         this.archive = archive;
+    }
+
+    public Situation getUneSituation() {
+        return uneSituation;
+    }
+
+    public void setUneSituation(Situation uneSituation) {
+        this.uneSituation = uneSituation;
     }
 }
