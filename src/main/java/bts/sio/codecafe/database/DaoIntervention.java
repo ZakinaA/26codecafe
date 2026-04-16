@@ -1,6 +1,7 @@
 package bts.sio.codecafe.database;
 
 import bts.sio.codecafe.model.Intervention;
+import bts.sio.codecafe.model.Situation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ public class DaoIntervention {
 
             String sql = "select i.id as i_id, i.rue as i_rue, i.copos as i_copos," +
                     " i.ville as i_ville, i.heure_appel as i_heure_appel, i.heure_arrivee as i_heure_arrivee," +
-                    " i.duree as i_duree, i.archive as i_archive from intervention as i";
+                    " i.duree as i_duree, i.archive as i_archive, i.situation_id as s_id, s.libelle as s_libelle" +
+                    " from intervention as i join situation as s on i.situation_id = s.id";
 
             if ( archive != null ) {
                 sql += " where archive = ?";
@@ -40,6 +42,12 @@ public class DaoIntervention {
             while (resultatRequete.next()) {
                 Intervention i = new Intervention();
                 mapResultSetToIntervention(i);
+
+                Situation s = new Situation();
+                s.setId(resultatRequete.getInt("s_id"));
+                s.setLibelle(resultatRequete.getString("s_libelle"));
+
+                i.setUneSituation(s);
 
                 lesInterventions.add(i);
             }
@@ -58,13 +66,20 @@ public class DaoIntervention {
 
             requeteSql = cnx.prepareStatement("select i.id as i_id, i.rue as i_rue, i.copos as i_copos," +
                     " i.ville as i_ville, i.heure_appel as i_heure_appel, i.heure_arrivee as i_heure_arrivee," +
-                    " i.duree as i_duree, i.archive as i_archive from intervention as i where i.id = ?");
+                    " i.duree as i_duree, i.archive as i_archive, i.situation_id as s_id, s.libelle as s_libelle" +
+                    " from intervention as i join situation as s on i.situation_id = s.id where i.id = ?");
             requeteSql.setInt(1, idIntervention);
             resultatRequete = requeteSql.executeQuery();
 
             if (resultatRequete.next()) {
                 i = new Intervention();
                 mapResultSetToIntervention(i);
+
+                Situation s = new Situation();
+                s.setId(resultatRequete.getInt("s_id"));
+                s.setLibelle(resultatRequete.getString("s_libelle"));
+
+                i.setUneSituation(s);
             }
 
         } catch (SQLException e) {
@@ -88,8 +103,8 @@ public class DaoIntervention {
     public static Intervention addIntervention(Connection connection, Intervention i) {
         int idGenere = -1;
         try {
-            requeteSql = connection.prepareStatement("INSERT INTO intervention (rue, copos, ville, heure_appel, heure_arrivee, duree, archive)" +
-                    " VALUES (?, ?, ?, ?, ?, ?, ?)", requeteSql.RETURN_GENERATED_KEYS);
+            requeteSql = connection.prepareStatement("INSERT INTO intervention (rue, copos, ville, heure_appel, heure_arrivee, duree, archive, situation_id)" +
+                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?)", requeteSql.RETURN_GENERATED_KEYS);
             setParametersIntervention(i);
 
             requeteSql.executeUpdate();
@@ -112,10 +127,10 @@ public class DaoIntervention {
 
         try {
             requeteSql = connection.prepareStatement("UPDATE intervention SET rue = ?, copos = ?," +
-                    " ville = ?, heure_appel = ?, heure_arrivee = ?, duree = ?, archive = ? " +
+                    " ville = ?, heure_appel = ?, heure_arrivee = ?, duree = ?, archive = ?, situation_id = ?" +
                     "WHERE intervention.id = ?");
             setParametersIntervention(i);
-            requeteSql.setInt(8, i.getId());
+            requeteSql.setInt(9, i.getId());
 
             rs = requeteSql.executeUpdate();
 
@@ -141,5 +156,6 @@ public class DaoIntervention {
         requeteSql.setTime(5, Time.valueOf(i.getHeureArrivee()));
         requeteSql.setInt(6, i.getDuree());
         requeteSql.setInt(7, i.getArchive());
+        requeteSql.setInt(8, i.getUneSituation().getId());
     }
 }
