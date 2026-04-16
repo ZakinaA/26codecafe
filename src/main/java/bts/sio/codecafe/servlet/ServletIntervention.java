@@ -3,10 +3,12 @@ package bts.sio.codecafe.servlet;
 import bts.sio.codecafe.database.DaoCaserne;
 import bts.sio.codecafe.database.DaoIntervention;
 import bts.sio.codecafe.database.DaoIntervention;
+import bts.sio.codecafe.database.DaoSituation;
 import bts.sio.codecafe.form.FormIntervention;
 import bts.sio.codecafe.model.Caserne;
 import bts.sio.codecafe.model.Intervention;
 import bts.sio.codecafe.model.Intervention;
+import bts.sio.codecafe.model.Situation;
 import bts.sio.codecafe.utils.MenuBuilder;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -92,6 +94,8 @@ public class ServletIntervention extends HttpServlet {
         }
 
         if(url.equals("/26CodeCafe/ServletIntervention/ajouter")) {
+            ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
+            request.setAttribute("pLesSituations", lesSituations);
             this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp" ).forward( request, response );
         }
 
@@ -100,6 +104,8 @@ public class ServletIntervention extends HttpServlet {
             System.out.println("intervention à afficher = " + idIntervention);
             Intervention i = DaoIntervention.getInterventionById(cnx, idIntervention);
             request.setAttribute("pIntervention", i);
+            ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
+            request.setAttribute("pLesSituations", lesSituations);
             this.getServletContext().getRequestDispatcher("/vues/intervention/modifierIntervention.jsp" ).forward( request, response );
         }
 
@@ -130,6 +136,7 @@ public class ServletIntervention extends HttpServlet {
         String action = request.getParameter("action");
 
         if (form.getErreurs().isEmpty()) {
+            ArrayList<Situation> lesSitauations = DaoSituation.getLesSituations(cnx, 0);
             if ( "ajouter".equals(action) ) {
                 Intervention interventionInsere = DaoIntervention.addIntervention(cnx, i);
                 if (interventionInsere != null) {
@@ -150,6 +157,8 @@ public class ServletIntervention extends HttpServlet {
                 }
             } else {
                 // il y a des erreurs. On réaffiche le formulaire avec des messages d'erreurs
+                ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
+                request.setAttribute("pLesSituations", lesSituations);
                 if ( "ajouter".equals(action) ) {
                     this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp").forward(request, response);
                 } else {

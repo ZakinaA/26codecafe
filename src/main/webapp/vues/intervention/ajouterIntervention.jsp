@@ -1,3 +1,5 @@
+<%@ page import="bts.sio.codecafe.model.Situation" %>
+<%@ page import="java.util.ArrayList" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -30,6 +32,17 @@
             <br>
             <label>Durée (minute)</label>
             <input type="text" name="duree">
+            <br>
+            <label>Situations</label>
+            <select name="idSituation">
+                <option value="">-- Sélectionner une caserne --</option>
+                <%
+                    ArrayList<Situation> lesSituations = (ArrayList<Situation>) request.getAttribute("pLesSituations");
+                    for (Situation s : lesSituations) {
+                %>
+                <option value="<%= s.getId() %>"><%= s.getLibelle() %></option>
+                <% } %>
+            </select>
             <br>
             <input type="submit" value="Ajouter l'intervention">
         </form>

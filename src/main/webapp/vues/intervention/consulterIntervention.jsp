@@ -25,6 +25,7 @@
             <p><span class="label">Durée :</span> <%= (i.getDuree() / 60 < 1)
                     ? i.getDuree() + (i.getDuree() > 1 ? " minutes" : " minute")
                     : (i.getDuree() / 60) + ((i.getDuree() / 60) > 1 ? " heures" : " heure")%></p>
+            <p><span class="label">Situation</span> <%= i.getUneSituation().getLibelle()%></p>
             <button><a href="${pageContext.request.contextPath}/ServletIntervention/modifier?idIntervention=<%= i.getId() %>">Modifier</a></button>
         </div>
         <% } else { %>

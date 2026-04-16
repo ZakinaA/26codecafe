@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="bts.sio.codecafe.model.Intervention" %>
+<%@ page import="bts.sio.codecafe.model.Situation" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,6 +38,16 @@
             <input type="text" name="duree" value="<%= i.getDuree() %>">
             <br>
             <input type="checkbox" name="archive" <% if (i.getArchive() == 1) { %> <%= "checked" %><% } %>>
+            <br>
+            <label>Situations</label>
+            <select name="idSituation">
+                <%
+                    ArrayList<Situation> lesSituations = (ArrayList<Situation>) request.getAttribute("pLesSituations");
+                    for (Situation s : lesSituations) {
+                %>
+                <option value="<%= s.getId() %>" <% if (i.getUneSituation().getId() == s.getId()) {%><%= "selected" %><%} %>><%= s.getLibelle() %></option>
+                <% } %>
+            </select>
             <br>
             <input type="submit" value="Modifier l'intervention">
         </form>
