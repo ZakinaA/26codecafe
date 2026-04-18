@@ -93,20 +93,20 @@ public class ServletIntervention extends HttpServlet {
             getServletContext().getRequestDispatcher("/vues/intervention/consulterIntervention.jsp").forward(request, response);
         }
 
-        if(url.equals("/26CodeCafe/ServletIntervention/ajouter")) {
+        if (url.equals("/26CodeCafe/ServletIntervention/ajouter")) {
             ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
             request.setAttribute("pLesSituations", lesSituations);
-            this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp" ).forward( request, response );
+            this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp").forward(request, response);
         }
 
-        if(url.equals("/26CodeCafe/ServletIntervention/modifier")) {
+        if (url.equals("/26CodeCafe/ServletIntervention/modifier")) {
             int idIntervention = Integer.parseInt((String) request.getParameter("idIntervention"));
             System.out.println("intervention à afficher = " + idIntervention);
             Intervention i = DaoIntervention.getInterventionById(cnx, idIntervention);
             request.setAttribute("pIntervention", i);
             ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
             request.setAttribute("pLesSituations", lesSituations);
-            this.getServletContext().getRequestDispatcher("/vues/intervention/modifierIntervention.jsp" ).forward( request, response );
+            this.getServletContext().getRequestDispatcher("/vues/intervention/modifierIntervention.jsp").forward(request, response);
         }
 
         if (url.equals("/26CodeCafe/ServletIntervention/archiver")) {
@@ -117,11 +117,13 @@ public class ServletIntervention extends HttpServlet {
 
             // Rediriger vers la liste en conservant le filtre courant
             String retour = request.getParameter("retour");
-            response.sendRedirect("/26CodeCafe/ServletIntervention/lister" +
-                    (retour != null ? "?archive=" + retour : ""));
+            // Si retour est vide ou null, on redirige sans paramètre
+            if (retour == null || retour.isEmpty()) {
+                response.sendRedirect("/26CodeCafe/ServletIntervention/lister");
+            } else {
+                response.sendRedirect("/26CodeCafe/ServletIntervention/lister?archive=" + retour);
+            }
         }
-
-
     }
 
     /**
