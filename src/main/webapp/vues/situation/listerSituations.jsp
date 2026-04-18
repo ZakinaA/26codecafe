@@ -27,13 +27,13 @@
     </div>
     <div class="card-body p-4">
 
-        <table class="table table-striped table-hover" id="tableSituations">
+        <table class="table table-striped table-hover" id="table">
             <thead>
             <tr>
                 <th scope="col" class="sortable" data-col="0" style="cursor:pointer;">
                     # <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
                 </th>
-                <th scope="col" class="sortable" data-col="2" style="cursor:pointer;">Libelle
+                <th scope="col" class="sortable" data-col="1" style="cursor:pointer;">Libelle
                     <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
                 </th>
                 <th scope="col">Action</th>

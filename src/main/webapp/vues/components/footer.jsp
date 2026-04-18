@@ -11,7 +11,7 @@
             let asc = true
             th.addEventListener('click', () => {
                 const col = parseInt(th.dataset.col)
-                const tbody = document.querySelector('#tableInterventions tbody')
+                const tbody = document.querySelector('#table tbody')
                 const rows = Array.from(tbody.querySelectorAll('tr'))
 
                 rows.sort((a, b) => {

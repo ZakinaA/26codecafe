@@ -27,7 +27,7 @@
     </div>
     <div class="card-body p-4">
 
-        <table class="table table-striped table-hover" id="tableInterventions">
+        <table class="table table-striped table-hover" id="table">
             <thead>
             <tr>
                 <th scope="col" class="sortable" data-col="0" style="cursor:pointer;">
