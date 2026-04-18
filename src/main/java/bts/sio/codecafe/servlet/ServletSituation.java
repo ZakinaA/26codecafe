@@ -1,7 +1,13 @@
 package bts.sio.codecafe.servlet;
 
+import bts.sio.codecafe.database.DaoCaserne;
+import bts.sio.codecafe.database.DaoSituation;
+import bts.sio.codecafe.database.DaoSituation;
 import bts.sio.codecafe.database.DaoSituation;
 import bts.sio.codecafe.form.FormSituation;
+import bts.sio.codecafe.model.Caserne;
+import bts.sio.codecafe.model.Situation;
+import bts.sio.codecafe.model.Situation;
 import bts.sio.codecafe.model.Situation;
 import bts.sio.codecafe.utils.MenuBuilder;
 import jakarta.servlet.ServletContext;
@@ -88,6 +94,8 @@ public class ServletSituation extends HttpServlet {
         }
 
         if(url.equals("/26CodeCafe/ServletSituation/ajouter")) {
+            ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
+            request.setAttribute("pLesSituations", lesSituations);
             this.getServletContext().getRequestDispatcher("/vues/situation/ajouterSituation.jsp" ).forward( request, response );
         }
 
@@ -129,9 +137,7 @@ public class ServletSituation extends HttpServlet {
             if ( "ajouter".equals(action) ) {
                 Situation situationInsere = DaoSituation.addSituation(cnx, s);
                 if (situationInsere != null) {
-                    request.setAttribute("pSituation", situationInsere);
-
-                    this.getServletContext().getRequestDispatcher("/vues/situation/consulterSituation.jsp").forward(request, response);
+                    response.sendRedirect("/26CodeCafe/ServletSituation/consulter?idSituation=" + situationInsere.getId());
                 } else {
                     // Cas oùl'insertion en bdd a échoué
                     //renvoyer vers une page d'erreur
@@ -140,18 +146,18 @@ public class ServletSituation extends HttpServlet {
                 int resultatModif = DaoSituation.updateSituationById(cnx, s);
                 if ( resultatModif == 1 ) {
                     Situation situationModifie = DaoSituation.getSituationById(cnx, s.getId());
-                    request.setAttribute("pSituation", situationModifie);
+                    response.sendRedirect("/26CodeCafe/ServletSituation/consulter?idSituation=" + situationModifie.getId());
+                } else {
 
-                    this.getServletContext().getRequestDispatcher("/vues/situation/consulterSituation.jsp").forward(request, response);
                 }
             } else {
                 // il y a des erreurs. On réaffiche le formulaire avec des messages d'erreurs
                 if ( "ajouter".equals(action) ) {
+
                     this.getServletContext().getRequestDispatcher("/vues/situation/ajouterSituation.jsp").forward(request, response);
                 } else {
                     request.setAttribute("pSituation", s);
-
-                    this.getServletContext().getRequestDispatcher("/vues/situation/modifierSituation.jsp").forward(request, response);
+                    response.sendRedirect("/26CodeCafe/ServletSituation/modifier?idSituation=" + s.getId());
                 }
             }
         }
