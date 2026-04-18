@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -113,7 +114,12 @@ public class ServletIntervention extends HttpServlet {
             int idIntervention = Integer.parseInt(request.getParameter("idIntervention"));
             int archive = Integer.parseInt(request.getParameter("archive")); // 0 ou 1
 
-            DaoIntervention.toggleArchiveIntervention(cnx, idIntervention, archive);
+            int resultatToggleArchive = DaoIntervention.toggleArchiveIntervention(cnx, idIntervention, archive);
+            String archiveStatut = resultatToggleArchive == 1 ? "success" : "fail";
+            String actionLibelle = archive == 1 ? "Archivage" : "Désarchivage";
+            HttpSession session = request.getSession();
+            session.setAttribute("pArchiveStatut", archiveStatut);
+            session.setAttribute("pArchiveAction", actionLibelle);
 
             // Rediriger vers la liste en conservant le filtre courant
             String retour = request.getParameter("retour");
@@ -123,6 +129,7 @@ public class ServletIntervention extends HttpServlet {
             } else {
                 response.sendRedirect("/26CodeCafe/ServletIntervention/lister?archive=" + retour);
             }
+
         }
     }
 
