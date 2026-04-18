@@ -63,7 +63,7 @@ public class FormIntervention {
 
         String idArchive = getDataForm(request, "archive");
         if ( idArchive != null && !idArchive.isEmpty() ) {
-            i.setId(Integer.parseInt(idArchive));
+            i.setArchive(Integer.parseInt(idArchive));
         }
 
         // Hydratation du reste

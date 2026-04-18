@@ -158,4 +158,30 @@ public class DaoIntervention {
         requeteSql.setInt(7, i.getArchive());
         requeteSql.setInt(8, i.getUneSituation().getId());
     }
+
+    public static int toggleArchiveIntervention(Connection connection, int idIntervention, int archive) {
+        int rs = 0;
+        try {
+            requeteSql = connection.prepareStatement(
+                    "UPDATE intervention SET archive = ? WHERE id = ?"
+            );
+
+            requeteSql.setInt(1, archive);
+            requeteSql.setInt(2, idIntervention);
+
+            rs = requeteSql.executeUpdate();
+
+            if (rs == 1) {
+                System.out.println("Archivage OK");
+            } else if (rs == 0) {
+                System.out.println("Aucune ligne archivée");
+            } else {
+                System.out.println("Attention : plusieurs lignes archivées !");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("La requête de toggleArchiveIntervention a généré une erreur");
+        }
+        return rs;
+    }
 }
