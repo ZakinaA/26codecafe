@@ -51,6 +51,7 @@
                 <td><%= i.getRue() %> <%= i.getCopos() %></td>
                 <td><%= i.getVille() %></td>
                 <td>
+                    <!-- Action -->
                     <a href="${pageContext.request.contextPath}/ServletIntervention/consulter?idIntervention=<%= i.getId() %>"
                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Consulter" class="mx-1 text-decoration-none">
                         <i class="bi bi-eye"></i>
@@ -58,6 +59,15 @@
                     <a href="${pageContext.request.contextPath}/ServletIntervention/modifier?idIntervention=<%= i.getId() %>"
                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier" class="mx-1 text-decoration-none">
                         <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <% int nouvelEtat = (i.getArchive() == 0) ? 1 : 0;
+                        String filtreActuel = request.getParameter("archive") != null ? request.getParameter("archive") : ""; %>
+
+                    <a href="${pageContext.request.contextPath}/ServletIntervention/archiver?idIntervention=<%= i.getId() %>&archive=<%= nouvelEtat %>&retour=<%= filtreActuel %>"
+                       data-bs-toggle="tooltip" data-bs-placement="top"
+                       data-bs-title="<%= i.getArchive() == 0 ? "Archiver" : "Désarchiver" %>"
+                       class="mx-1 text-decoration-none <%= i.getArchive() == 0 ? "text-warning" : "text-success" %>">
+                        <i class="bi bi-<%= i.getArchive() == 0 ? "archive" : "arrow-counterclockwise" %>"></i>
                     </a>
                 </td>
             </tr>
