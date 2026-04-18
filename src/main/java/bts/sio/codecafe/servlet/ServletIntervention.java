@@ -109,6 +109,18 @@ public class ServletIntervention extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/vues/intervention/modifierIntervention.jsp" ).forward( request, response );
         }
 
+        if (url.equals("/26CodeCafe/ServletIntervention/archiver")) {
+            int idIntervention = Integer.parseInt(request.getParameter("idIntervention"));
+            int archive = Integer.parseInt(request.getParameter("archive")); // 0 ou 1
+
+            DaoIntervention.toggleArchiveIntervention(cnx, idIntervention, archive);
+
+            // Rediriger vers la liste en conservant le filtre courant
+            String retour = request.getParameter("retour");
+            response.sendRedirect("/26CodeCafe/ServletIntervention/lister" +
+                    (retour != null ? "?archive=" + retour : ""));
+        }
+
 
     }
 
