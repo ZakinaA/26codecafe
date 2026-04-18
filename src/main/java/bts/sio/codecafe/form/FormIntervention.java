@@ -6,6 +6,7 @@ package bts.sio.codecafe.form;
 
 import bts.sio.codecafe.model.Caserne;
 import bts.sio.codecafe.model.Intervention;
+import bts.sio.codecafe.model.Situation;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalTime;
@@ -72,6 +73,9 @@ public class FormIntervention {
         LocalTime heureAppel = LocalTime.parse((String)getDataForm( request, "heureAppel" ));
         LocalTime heureArrivee = LocalTime.parse((String)getDataForm( request, "heureArrivee" ));
         int duree = Integer.parseInt((String)getDataForm( request, "duree" ));
+        int situation = Integer.parseInt((String)getDataForm( request, "idSituation" ));
+
+        Situation s = new Situation(situation);
 
         i.setRue(rue);
         i.setCopos(copos);
@@ -79,6 +83,7 @@ public class FormIntervention {
         i.setHeureAppel(heureAppel);
         i.setHeureArrivee(heureArrivee);
         i.setDuree(duree);
+        i.setUneSituation(s);
 
         if ( erreurs.isEmpty() ) {
             resultat = "Succès de l'ajout.";

@@ -1,53 +1,75 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList, bts.sio.codecafe.model.Intervention"%>
-<%@page import="bts.sio.codecafe.model.Intervention"%>
-<%@page import="java.util.ArrayList"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Liste des interventions</title>
-    </head>
-    <body>
-        <h1>Liste des interventions</h1>
 
-        <jsp:include page="/vues/components/menu.jsp" />
+<jsp:include page="/vues/components/header.jsp"/>
 
-        <a href="/26CodeCafe/ServletIntervention/lister">Toutes</a> |
-        <a href="/26CodeCafe/ServletIntervention/lister?archive=0">Non archivées</a> |
-        <a href="/26CodeCafe/ServletIntervention/lister?archive=1">Archivées</a>
+<div class="card border-0">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div>
+            <h1 class="h3 mt-2 mb-0 fw-semibold">Liste des interventions</h1>
+            <span class="text-secondary small mt-1">Liste des interventions avec action possible.</span>
+        </div>
 
-        <table>
+        <div class="btn-group" role="group">
+            <a href="/26CodeCafe/ServletIntervention/lister"
+               class="btn btn-outline-primary <%= request.getParameter("archive") == null ? "active" : "" %>">
+                Toutes
+            </a>
+            <a href="/26CodeCafe/ServletIntervention/lister?archive=0"
+               class="btn btn-outline-primary <%= "0".equals(request.getParameter("archive")) ? "active" : "" %>">
+                Non archivées
+            </a>
+            <a href="/26CodeCafe/ServletIntervention/lister?archive=1"
+               class="btn btn-outline-primary <%= "1".equals(request.getParameter("archive")) ? "active" : "" %>">
+                Archivées
+            </a>
+        </div>
+    </div>
+    <div class="card-body p-4">
+
+        <table class="table table-striped table-hover" id="tableInterventions">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Adresse</th>
-                    <th>Ville</th>
-                    <th>Action</th>
-                </tr>
+            <tr>
+                <th scope="col" class="sortable" data-col="0" style="cursor:pointer;">
+                    # <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
+                </th>
+                <th scope="col">Adresse</th>
+                <th scope="col" class="sortable" data-col="2" style="cursor:pointer;">
+                    Ville <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
+                </th>
+                <th scope="col">Action</th>
+            </tr>
             </thead>
             <tbody>
-                <%
-                    ArrayList<Intervention> lesInterventions = (ArrayList<Intervention>) request.getAttribute("pLesInterventions");
-                    if (lesInterventions != null) {
-                        for (Intervention i : lesInterventions) {
-                %>
-                <tr>
-                    <td><%= i.getId() %></td>
-                    <td><%= i.getRue() %><br><%= i.getCopos()%></td>
-                    <td><%= i.getVille() %></td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/ServletIntervention/consulter?idIntervention=<%= i.getId() %>">Consulter</a>
-                        <a href="${pageContext.request.contextPath}/ServletIntervention/modifier?idIntervention=<%= i.getId() %>">Modifier</a>
-                    </td>
-                </tr>
-                <%
-                        }
-                    } else {
-                %>
-                <tr><td colspan="5">Aucune intervention trouvé.</td></tr>
-                <% } %>
+            <%
+                ArrayList<Intervention> lesInterventions = (ArrayList<Intervention>) request.getAttribute("pLesInterventions");
+                if (lesInterventions != null) {
+                    for (Intervention i : lesInterventions) {
+            %>
+            <tr>
+                <th scope="row"><%= i.getId() %></th>
+                <td><%= i.getRue() %> <%= i.getCopos() %></td>
+                <td><%= i.getVille() %></td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/ServletIntervention/consulter?idIntervention=<%= i.getId() %>"
+                       data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Consulter" class="mx-1 text-decoration-none">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/ServletIntervention/modifier?idIntervention=<%= i.getId() %>"
+                       data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier" class="mx-1 text-decoration-none">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                </td>
+            </tr>
+            <%
+                }
+            } else {
+            %>
+            <tr><td colspan="4">Aucune intervention trouvée.</td></tr>
+            <% } %>
             </tbody>
         </table>
-    </body>
-</html>
+    </div>
+</div>
+
+<jsp:include page="/vues/components/footer.jsp"/>

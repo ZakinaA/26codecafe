@@ -1,37 +1,88 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="bts.sio.codecafe.model.Intervention"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Fiche intervention</title>
-    </head>
-    <body>
-        <h1>Fiche intervention</h1>
 
-        <jsp:include page="/vues/components/menu.jsp" />
+<jsp:include page="/vues/components/header.jsp"/>
 
-        <%
-            Intervention i = (Intervention) request.getAttribute("pIntervention");
-            if (i != null) {
-        %>
-        <div class="fiche">
-            <p><span class="label">ID :</span> <%= i.getId()%></p>
-            <p><span class="label">Rue :</span> <%= i.getRue()%></p>
-            <p><span class="label">Code postal :</span> <%= i.getCopos()%></p>
-            <p><span class="label">Ville :</span> <%= i.getVille()%></p>
-            <p><span class="label">Heure d'appel :</span> <%= i.getHeureAppel()%></p>
-            <p><span class="label">Heure arrivé :</span> <%= i.getHeureArrivee()%></p>
-            <p><span class="label">Durée :</span> <%= (i.getDuree() / 60 < 1)
-                    ? i.getDuree() + (i.getDuree() > 1 ? " minutes" : " minute")
-                    : (i.getDuree() / 60) + ((i.getDuree() / 60) > 1 ? " heures" : " heure")%></p>
-            <p><span class="label">Situation</span> <%= i.getUneSituation().getLibelle()%></p>
-            <button><a href="${pageContext.request.contextPath}/ServletIntervention/modifier?idIntervention=<%= i.getId() %>">Modifier</a></button>
+<% Intervention i = (Intervention) request.getAttribute("pIntervention"); %>
+<div class="card border-0">
+    <div class="card-header">
+        <h1 class="h3 mt-2 mb-0 fw-semibold">Consultation de l'intervention</h1>
+        <span class="text-secondary small mt-1">Consultation des informations de l'intervention.</span>
+    </div>
+    <div class="card-body p-4">
+        <% if (i != null) { %>
+
+        <!-- Adresse -->
+        <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
+            Adresse
+        </h6>
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-lg-4 input-group">
+                <span class="input-group-text fw-medium">Rue</span>
+                <input type="text" class="form-control" value="<%= i.getRue() %>" readonly>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4 input-group">
+                <span class="input-group-text fw-medium">Code postal</span>
+                <input type="text" class="form-control" value="<%= i.getCopos() %>" readonly>
+            </div>
+            <div class="col-12 col-md-8 col-lg-4 input-group">
+                <span class="input-group-text fw-medium">Ville</span>
+                <input type="text" class="form-control" value="<%= i.getVille() %>" readonly>
+            </div>
         </div>
-        <% } else { %>
-        <p style="color:red;">Intervention introuvable.</p>
-        <% }%>
 
-        <a href="${pageContext.request.contextPath}/ServletIntervention/lister">← Retour à la liste</a>
-    </body>
-</html>
+        <!-- Horaires -->
+        <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
+            Horaires
+        </h6>
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-md-4 input-group">
+                <span class="input-group-text fw-medium">Heure d'appel</span>
+                <input type="time" class="form-control" value="<%= i.getHeureAppel() %>" readonly>
+            </div>
+            <div class="col-12 col-md-4 input-group">
+                <span class="input-group-text fw-medium">Heure d'arrivée</span>
+                <input type="time" class="form-control" value="<%= i.getHeureArrivee() %>" readonly>
+            </div>
+            <div class="col-12 col-md-4 input-group">
+                <span class="input-group-text fw-medium">Durée (min)</span>
+                <input type="number" class="form-control" value="<%= i.getDuree() %>" readonly>
+            </div>
+        </div>
+
+        <!-- Situation -->
+        <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
+            Situation
+        </h6>
+        <div class="row g-3 mb-4">
+            <div class="col-12 input-group">
+                <span class="input-group-text fw-medium">Situation</span>
+                <input type="text" class="form-control" value="<%= i.getUneSituation().getLibelle() %>" readonly>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="d-flex gap-2 pt-3 border-top">
+            <a href="${pageContext.request.contextPath}/ServletIntervention/modifier?idIntervention=<%= i.getId() %>"
+               class="btn btn-primary px-4">Modifier</a>
+            <a href="/26CodeCafe/ServletIntervention/lister"
+               class="btn btn-outline-secondary px-4">Retour</a>
+        </div>
+
+        <!-- Intervention introuvable -->
+        <% } else { %>
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>Intervention introuvable.</span>
+        </div>
+        <!-- Actions -->
+        <div class="d-flex gap-2 pt-3 border-top">
+            <a href=""
+               class="btn btn-primary px-4 disabled">Modifier</a>
+            <a href="/26CodeCafe/ServletIntervention/lister"
+               class="btn btn-outline-secondary px-4">Retour</a>
+        <% } %>
+    </div>
+</div>
+
+<jsp:include page="/vues/components/footer.jsp"/>

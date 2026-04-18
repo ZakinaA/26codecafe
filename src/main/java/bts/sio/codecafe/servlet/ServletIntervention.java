@@ -136,13 +136,11 @@ public class ServletIntervention extends HttpServlet {
         String action = request.getParameter("action");
 
         if (form.getErreurs().isEmpty()) {
-            ArrayList<Situation> lesSitauations = DaoSituation.getLesSituations(cnx, 0);
+            ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
             if ( "ajouter".equals(action) ) {
                 Intervention interventionInsere = DaoIntervention.addIntervention(cnx, i);
                 if (interventionInsere != null) {
-                    request.setAttribute("pIntervention", interventionInsere);
-
-                    this.getServletContext().getRequestDispatcher("/vues/intervention/consulterIntervention.jsp").forward(request, response);
+                    response.sendRedirect("/26CodeCafe/ServletIntervention/consulter?idIntervention=" + interventionInsere.getId());
                 } else {
                     // Cas oùl'insertion en bdd a échoué
                     //renvoyer vers une page d'erreur
@@ -151,20 +149,21 @@ public class ServletIntervention extends HttpServlet {
                 int resultatModif = DaoIntervention.updateInterventionById(cnx, i);
                 if ( resultatModif == 1 ) {
                     Intervention interventionModifie = DaoIntervention.getInterventionById(cnx, i.getId());
-                    request.setAttribute("pIntervention", interventionModifie);
+                    response.sendRedirect("/26CodeCafe/ServletIntervention/consulter?idIntervention=" + interventionModifie.getId());
+                } else {
 
-                    this.getServletContext().getRequestDispatcher("/vues/intervention/consulterIntervention.jsp").forward(request, response);
                 }
             } else {
                 // il y a des erreurs. On réaffiche le formulaire avec des messages d'erreurs
-                ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
                 request.setAttribute("pLesSituations", lesSituations);
                 if ( "ajouter".equals(action) ) {
+                    request.setAttribute("pLesSituations", lesSituations);
+
                     this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp").forward(request, response);
                 } else {
                     request.setAttribute("pIntervention", i);
-
-                    this.getServletContext().getRequestDispatcher("/vues/intervention/modifierIntervention.jsp").forward(request, response);
+                    request.setAttribute("pLesSituations", lesSituations);
+                    response.sendRedirect("/26CodeCafe/ServletIntervention/modifier?idIntervention=" + i.getId());
                 }
             }
         }

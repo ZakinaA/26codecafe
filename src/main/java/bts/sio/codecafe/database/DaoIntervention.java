@@ -28,7 +28,7 @@ public class DaoIntervention {
                     " from intervention as i join situation as s on i.situation_id = s.id";
 
             if ( archive != null ) {
-                sql += " where archive = ?";
+                sql += " where i.archive = ?";
             }
 
             requeteSql = cnx.prepareStatement(sql);
@@ -128,7 +128,7 @@ public class DaoIntervention {
         try {
             requeteSql = connection.prepareStatement("UPDATE intervention SET rue = ?, copos = ?," +
                     " ville = ?, heure_appel = ?, heure_arrivee = ?, duree = ?, archive = ?, situation_id = ?" +
-                    "WHERE intervention.id = ?");
+                    " WHERE intervention.id = ?");
             setParametersIntervention(i);
             requeteSql.setInt(9, i.getId());
 
