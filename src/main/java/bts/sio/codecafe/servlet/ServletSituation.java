@@ -175,9 +175,10 @@ public class ServletSituation extends HttpServlet {
             } else {
                 // il y a des erreurs. On réaffiche le formulaire avec des messages d'erreurs
                 if ( "ajouter".equals(action) ) {
-
+                    session.setAttribute("pAjoutStatut", "fail");
                     this.getServletContext().getRequestDispatcher("/vues/situation/ajouterSituation.jsp").forward(request, response);
                 } else {
+                    session.setAttribute("pModifStatut", "fail");
                     request.setAttribute("pSituation", s);
                     response.sendRedirect("/26CodeCafe/ServletSituation/modifier?idSituation=" + s.getId());
                 }

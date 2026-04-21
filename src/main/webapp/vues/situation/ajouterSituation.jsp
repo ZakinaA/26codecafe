@@ -8,7 +8,13 @@
         <h1 class="h3 mt-2 mb-0 fw-semibold">Ajout d'une situation</h1>
         <span class="text-secondary small mt-1">Remplissez les informations de la nouvelle situation.</span>
     </div>
-    <div class="card-body p-4">
+    <div class="card-body p-4">>
+        <%  if (session.getAttribute("pAjoutStatut") != null) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>L'ajout a échoué.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
         <form method="post" action="/26CodeCafe/ServletSituation/ajouter">
             <input type="hidden" name="action" value="ajouter">
 

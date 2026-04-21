@@ -13,7 +13,13 @@
         <h1 class="h3 mt-2 mb-0 fw-semibold">Modification de la situation</h1>
         <span class="text-secondary small mt-1">Modifier les informations de la situation.</span>
     </div>
-    <div class="card-body p-4">
+    <div class="card-body p-4">>
+        <%  if (session.getAttribute("pModifStatut") != null) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>La modification a échoué.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
         <% if (s != null) { %>
         <form method="post" action="/26CodeCafe/ServletSituation/modifier">
             <input type="hidden" name="action" value="modifier">
