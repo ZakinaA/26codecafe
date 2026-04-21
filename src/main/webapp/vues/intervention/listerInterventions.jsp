@@ -58,7 +58,7 @@
             <tbody>
             <%
                 ArrayList<Intervention> lesInterventions = (ArrayList<Intervention>) request.getAttribute("pLesInterventions");
-                if (lesInterventions != null) {
+                if (!lesInterventions.isEmpty()) {
                     for (Intervention i : lesInterventions) {
             %>
             <tr>
@@ -90,7 +90,13 @@
                 }
             } else {
             %>
-            <tr><td colspan="4">Aucune intervention trouvée.</td></tr>
+            <tr>
+                <td colspan="4">
+                    <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Aucune intervention trouvée.
+                    </div>
+                </td>
+            </tr>
             <% } %>
             </tbody>
         </table>
