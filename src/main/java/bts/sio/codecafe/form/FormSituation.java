@@ -61,7 +61,7 @@ public class FormSituation {
 
         String idArchive = getDataForm(request, "archive");
         if ( idArchive != null && !idArchive.isEmpty() ) {
-            s.setId(Integer.parseInt(idArchive));
+            s.setArchive(Integer.parseInt(idArchive));
         }
 
         // Hydratation du reste

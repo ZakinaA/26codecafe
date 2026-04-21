@@ -57,6 +57,15 @@
                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier" class="mx-1 text-decoration-none">
                         <i class="bi bi-pencil-square"></i>
                     </a>
+                    <% int nouvelEtat = (s.getArchive() == 0) ? 1 : 0;
+                        String filtreActuel = request.getParameter("archive") != null ? request.getParameter("archive") : ""; %>
+
+                    <a href="${pageContext.request.contextPath}/ServletSituation/archiver?idSituation=<%= s.getId() %>&archive=<%= nouvelEtat %>&retour=<%= filtreActuel %>"
+                       data-bs-toggle="tooltip" data-bs-placement="top"
+                       data-bs-title="<%= s.getArchive() == 0 ? "Archiver" : "Désarchiver" %>"
+                       class="mx-1 text-decoration-none <%= s.getArchive() == 0 ? "text-warning" : "text-success" %>">
+                        <i class="bi bi-<%= s.getArchive() == 0 ? "archive" : "arrow-counterclockwise" %>"></i>
+                    </a>
                 </td>
             </tr>
             <%
