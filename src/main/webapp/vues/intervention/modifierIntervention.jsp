@@ -15,6 +15,12 @@
     </div>
     <div class="card-body p-4">
         <% if (i != null) { %>
+        <%  if (session.getAttribute("pAjoutStatut") != null) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>La modification a échoué.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
         <form method="post" action="/26CodeCafe/ServletIntervention/modifier">
             <input type="hidden" name="action" value="modifier">
             <input type="hidden" name="id" value="<%= i.getId() %>">

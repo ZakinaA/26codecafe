@@ -182,9 +182,11 @@ public class ServletIntervention extends HttpServlet {
                 request.setAttribute("pLesSituations", lesSituations);
                 if ( "ajouter".equals(action) ) {
                     request.setAttribute("pLesSituations", lesSituations);
+                    session.setAttribute("pAjoutStatut", "fail");
 
                     this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp").forward(request, response);
                 } else {
+                    session.setAttribute("pModifStatut", "fail");
                     request.setAttribute("pIntervention", i);
                     request.setAttribute("pLesSituations", lesSituations);
                     response.sendRedirect("/26CodeCafe/ServletIntervention/modifier?idIntervention=" + i.getId());
