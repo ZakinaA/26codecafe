@@ -153,9 +153,11 @@ public class ServletSituation extends HttpServlet {
         String action = request.getParameter("action");
 
         if (form.getErreurs().isEmpty()) {
+            HttpSession session = request.getSession();
             if ( "ajouter".equals(action) ) {
                 Situation situationInsere = DaoSituation.addSituation(cnx, s);
                 if (situationInsere != null) {
+                    session.setAttribute("pAjoutStatut", "success");
                     response.sendRedirect("/26CodeCafe/ServletSituation/consulter?idSituation=" + situationInsere.getId());
                 } else {
                     // Cas oùl'insertion en bdd a échoué
@@ -164,6 +166,7 @@ public class ServletSituation extends HttpServlet {
             } else if ( "modifier".equals(action) ) {
                 int resultatModif = DaoSituation.updateSituationById(cnx, s);
                 if ( resultatModif == 1 ) {
+                    session.setAttribute("pModifStatut", "success");
                     Situation situationModifie = DaoSituation.getSituationById(cnx, s.getId());
                     response.sendRedirect("/26CodeCafe/ServletSituation/consulter?idSituation=" + situationModifie.getId());
                 } else {
