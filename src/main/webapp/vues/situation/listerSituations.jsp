@@ -26,7 +26,22 @@
         </div>
     </div>
     <div class="card-body p-4">
-
+        <%  String statut = (String) session.getAttribute("pArchiveStatut");
+            String action = (String) session.getAttribute("pArchiveAction");
+            session.removeAttribute("pArchiveStatut");
+            session.removeAttribute("pArchiveAction");
+            if ("success".equals(statut)) {
+        %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i><%= action %> effectué avec succès.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } else if ("fail".equals(statut)) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i><%= action %> a échoué.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
         <table class="table table-striped table-hover" id="table">
             <thead>
             <tr>
