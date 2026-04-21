@@ -158,9 +158,11 @@ public class ServletIntervention extends HttpServlet {
 
         if (form.getErreurs().isEmpty()) {
             ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
+            HttpSession session = request.getSession();
             if ( "ajouter".equals(action) ) {
                 Intervention interventionInsere = DaoIntervention.addIntervention(cnx, i);
                 if (interventionInsere != null) {
+                    session.setAttribute("pAjoutStatut", "success");
                     response.sendRedirect("/26CodeCafe/ServletIntervention/consulter?idIntervention=" + interventionInsere.getId());
                 } else {
                     // Cas oùl'insertion en bdd a échoué
@@ -169,6 +171,7 @@ public class ServletIntervention extends HttpServlet {
             } else if ( "modifier".equals(action) ) {
                 int resultatModif = DaoIntervention.updateInterventionById(cnx, i);
                 if ( resultatModif == 1 ) {
+                    session.setAttribute("pModifStatut", "success");
                     Intervention interventionModifie = DaoIntervention.getInterventionById(cnx, i.getId());
                     response.sendRedirect("/26CodeCafe/ServletIntervention/consulter?idIntervention=" + interventionModifie.getId());
                 } else {
