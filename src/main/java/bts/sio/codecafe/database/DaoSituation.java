@@ -21,7 +21,7 @@ public class DaoSituation {
         ArrayList<Situation> lesSituations = new ArrayList<Situation>();
         try {
 
-            String sql = "select s.id as s_id, s.libelle as s_libelle from situation as s";
+            String sql = "select s.id as s_id, s.libelle as s_libelle, s.archive as s_archive from situation as s";
 
             if ( archive != null ) {
                 sql += " where archive = ?";
@@ -74,6 +74,7 @@ public class DaoSituation {
     private static void mapResultSetToSituation(Situation s) throws SQLException {
         s.setId(resultatRequete.getInt("s_id"));
         s.setLibelle(resultatRequete.getString("s_libelle"));
+        s.setArchive(resultatRequete.getInt("s_archive"));
     }
 
     public static Situation addSituation(Connection connection, Situation s) {
@@ -126,5 +127,31 @@ public class DaoSituation {
     private static void setParametersSituation(Situation s) throws SQLException {
         requeteSql.setString(1, s.getLibelle());
         requeteSql.setInt(2, s.getArchive());
+    }
+    
+    public static int toggleArchiveSituation(Connection connection, int idSituation, int archive) {
+        int rs = 0;
+        try {
+            requeteSql = connection.prepareStatement(
+                    "UPDATE situation SET archive = ? WHERE id = ?"
+            );
+
+            requeteSql.setInt(1, archive);
+            requeteSql.setInt(2, idSituation);
+
+            rs = requeteSql.executeUpdate();
+
+            if (rs == 1) {
+                System.out.println("Archivage OK");
+            } else if (rs == 0) {
+                System.out.println("Aucune ligne archivée");
+            } else {
+                System.out.println("Attention : plusieurs lignes archivées !");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("La requête de toggleArchiveSituation a généré une erreur");
+        }
+        return rs;
     }
 }
