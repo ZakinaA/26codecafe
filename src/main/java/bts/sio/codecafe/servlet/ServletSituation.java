@@ -1,7 +1,6 @@
 package bts.sio.codecafe.servlet;
 
-import bts.sio.codecafe.database.DaoCaserne;
-import bts.sio.codecafe.database.DaoSituation;
+import bts.sio.codecafe.database.*;
 import bts.sio.codecafe.database.DaoSituation;
 import bts.sio.codecafe.database.DaoSituation;
 import bts.sio.codecafe.form.FormSituation;
@@ -16,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -106,8 +106,27 @@ public class ServletSituation extends HttpServlet {
             request.setAttribute("pSituation", s);
             this.getServletContext().getRequestDispatcher("/vues/situation/modifierSituation.jsp" ).forward( request, response );
         }
+        
+        if (url.equals("/26CodeCafe/ServletSituation/archiver")) {
+            int idSituation = Integer.parseInt(request.getParameter("idSituation"));
+            int archive = Integer.parseInt(request.getParameter("archive")); // 0 ou 1
 
+            int resultatToggleArchive = DaoSituation.toggleArchiveSituation(cnx, idSituation, archive);
+            String archiveStatut = resultatToggleArchive == 1 ? "success" : "fail";
+            String actionLibelle = archive == 1 ? "Archivage" : "Désarchivage";
+            HttpSession session = request.getSession();
+            session.setAttribute("pArchiveStatut", archiveStatut);
+            session.setAttribute("pArchiveAction", actionLibelle);
 
+            // Rediriger vers la liste en conservant le filtre courant
+            String retour = request.getParameter("retour");
+            // Si retour est vide ou null, on redirige sans paramètre
+            if (retour == null || retour.isEmpty()) {
+                response.sendRedirect("/26CodeCafe/ServletSituation/lister");
+            } else {
+                response.sendRedirect("/26CodeCafe/ServletSituation/lister?archive=" + retour);
+            }
+        }
     }
 
     /**
