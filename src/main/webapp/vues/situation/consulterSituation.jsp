@@ -9,21 +9,8 @@
         <span class="text-secondary small mt-1">Consultation des informations de la situation.</span>
     </div>
     <div class="card-body p-4">
-        <% if (s != null) {
-            if ( (session.getAttribute("pAjoutStatut") != null) || (session.getAttribute("pModifStatut") != null) ) {
-                String action = (session.getAttribute("pAjoutStatut") == "success") ? "Ajout" : "Modification";
-                if ((action.equals("ajout"))) {
-                    session.removeAttribute("pAjoutStatut");
-                } else {
-                    session.removeAttribute("pModifStatut");
-                }
-        %>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i><%= action %> effectué avec succès.
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        <% } %>
-
+        <% if (s != null) { %>
+        <%@ include file="/vues/components/alertSuccess.jspf"%>
         <!-- Adresse -->
         <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
             Libelle
