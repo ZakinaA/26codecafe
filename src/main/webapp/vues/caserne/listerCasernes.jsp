@@ -5,7 +5,7 @@
 --%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="bts.sio.codecafe.model.Caserne"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 
 <%@ include file="/vues/components/header.jspf"%>
     <h1>Liste des Casernes du Calvados</h1>

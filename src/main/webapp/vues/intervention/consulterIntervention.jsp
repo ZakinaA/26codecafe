@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@page import="bts.sio.codecafe.model.Intervention"%>
 
 <%@ include file="/vues/components/header.jspf"%>

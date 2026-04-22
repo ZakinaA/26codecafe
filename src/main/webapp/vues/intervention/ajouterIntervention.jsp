@@ -1,6 +1,5 @@
 <%@ page import="bts.sio.codecafe.model.Situation" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ include file="/vues/components/header.jspf"%>
 

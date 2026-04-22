@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ page import="bts.sio.codecafe.model.Intervention" %>
 <%@ page import="bts.sio.codecafe.model.Situation" %>
 <%@ page import="java.util.ArrayList" %>
