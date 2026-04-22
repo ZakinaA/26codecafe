@@ -1,7 +1,7 @@
 <%
     if ( (session.getAttribute("pAjoutStatut") != null) || (session.getAttribute("pModifStatut") != null) ) {
-        String action = (session.getAttribute("pAjoutStatut") == "success") ? "Ajout" : "Modification";
-        if ((action.equals("ajout"))) {
+        String action = ("success".equals(session.getAttribute("pAjoutStatut"))) ? "Ajout" : "Modification";
+        if ((action.equals("Ajout"))) {
         session.removeAttribute("pAjoutStatut");
     } else {
         session.removeAttribute("pModifStatut");
