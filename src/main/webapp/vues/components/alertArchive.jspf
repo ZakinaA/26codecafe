@@ -1,0 +1,18 @@
+<%  String statut = (String) session.getAttribute("pArchiveStatut");
+    String action = (String) session.getAttribute("pArchiveAction");
+    session.removeAttribute("pArchiveStatut");
+    session.removeAttribute("pArchiveAction");
+    if ("success".equals(statut)) {
+%>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <span><%= action %> effectué avec succès.</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<% } else if ("fail".equals(statut)) { %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <span><%= action %> a échoué.</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<% } %>

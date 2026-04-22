@@ -1,0 +1,7 @@
+<%  if (session.getAttribute(alertSessionKey) != null) { %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <span><%= alertMessage%></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<% } %>
