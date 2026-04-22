@@ -83,10 +83,11 @@
 
         <!-- Intervention introuvable -->
         <% } else { %>
-        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-            <span>Intervention introuvable.</span>
-        </div>
+        <%
+            String alertMessage = "Intervention introuvable";
+            Boolean alertMb = true;
+        %>
+        <%@ include file="/vues/components/alertDanger.jspf"%>
         <!-- Actions -->
         <div class="d-flex gap-2 pt-3 border-top">
             <a href=""

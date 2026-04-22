@@ -92,9 +92,11 @@
             %>
             <tr>
                 <td colspan="4">
-                    <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Aucune intervention trouvée.
-                    </div>
+                    <%
+                        String alertMessage = "Aucune intervention trouvée";
+                        Boolean alertMb = false;
+                    %>
+                    <%@ include file="/vues/components/alertDanger.jspf"%>
                 </td>
             </tr>
             <% } %>

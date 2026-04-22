@@ -45,10 +45,11 @@
 
         <!-- Situation introuvable -->
         <% } else { %>
-        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-            <span>Situation introuvable.</span>
-        </div>
+        <%
+            String alertMessage = "Situation introuvable";
+            Boolean alertMb = true;
+        %>
+        <%@ include file="/vues/components/alertDanger.jspf"%>
         <!-- Actions -->
         <div class="d-flex gap-2 pt-3 border-top">
             <a href=""
