@@ -1,9 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="bts.sio.codecafe.model.Situation" %>
-<%@ page import="bts.sio.codecafe.model.Situation" %>
-<%@ page import="java.util.ArrayList" %>
 
-<jsp:include page="/vues/components/header.jsp"/>
+<%@ include file="/vues/components/header.jspf"%>
 
 <% Situation s = (Situation) request.getAttribute("pSituation"); %>
 
@@ -13,7 +11,7 @@
         <h1 class="h3 mt-2 mb-0 fw-semibold">Modification de la situation</h1>
         <span class="text-secondary small mt-1">Modifier les informations de la situation.</span>
     </div>
-    <div class="card-body p-4">>
+    <div class="card-body p-4">
         <%  if (session.getAttribute("pModifStatut") != null) { %>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle-fill me-2"></i>La modification a échoué.
@@ -65,4 +63,4 @@
         </div>
     </div>
 
-    <jsp:include page="/vues/components/footer.jsp"/>
+    <%@ include file="/vues/components/footer.jspf"%>

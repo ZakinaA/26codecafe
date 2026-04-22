@@ -2,7 +2,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
-<jsp:include page="/vues/components/header.jsp"/>
+<%@ include file="/vues/components/header.jspf"%>
 
         <!-- Formulaire -->
         <div class="card border-0">
@@ -96,4 +96,4 @@
             </div>
         </div>
 
-<jsp:include page="/vues/components/footer.jsp"/>
+<%@ include file="/vues/components/footer.jspf"%>

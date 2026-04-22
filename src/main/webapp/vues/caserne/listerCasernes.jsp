@@ -6,20 +6,9 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="bts.sio.codecafe.model.Caserne"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>SDIS WEB</title>
-    </head>
-    <body>
-        <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>APPLICATION DE GESTION SDIS CALVADOS</title>
-    </head>
-    <h1>Liste des Casernes du Calvados</h1>
 
-        <jsp:include page="/vues/components/menu.jsp" />
+<%@ include file="/vues/components/header.jspf"%>
+    <h1>Liste des Casernes du Calvados</h1>
 
             <%
                 ArrayList<Caserne> lesCasernes = (ArrayList)request.getAttribute("pLesCasernes");
@@ -63,5 +52,5 @@
                     %>
             </tbody>
         </table>
-    </body>
-</html>
+
+<%@ include file="/vues/components/footer.jspf"%>

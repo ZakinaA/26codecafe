@@ -1,15 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="bts.sio.codecafe.model.Pompier"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Fiche pompier</title>
-    </head>
-    <body>
-        <h1>Fiche pompier</h1>
 
-        <jsp:include page="/vues/components/menu.jsp" />
+<%@ include file="/vues/components/header.jspf"%>
+        <h1>Fiche pompier</h1>
 
         <%
             Pompier p = (Pompier) request.getAttribute("pPompier");
@@ -33,5 +26,5 @@
         <% }%>
 
         <a href="${pageContext.request.contextPath}/ServletPompier/listerPompiers">← Retour à la liste</a>
-    </body>
-</html>
+
+<%@ include file="/vues/components/footer.jspf"%>

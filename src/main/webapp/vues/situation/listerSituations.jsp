@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList, bts.sio.codecafe.model.Situation"%>
 
-<jsp:include page="/vues/components/header.jsp"/>
+<%@ include file="/vues/components/header.jspf"%>
 
 <div class="card border-0">
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -100,4 +100,4 @@
     </div>
 </div>
 
-<jsp:include page="/vues/components/footer.jsp"/>
+<%@ include file="/vues/components/footer.jspf"%>

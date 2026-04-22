@@ -1,15 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList, bts.sio.codecafe.model.Caserne"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Modifier un pompier</title>
-    </head>
-    <body>
-        <h1>Modifier un pompier</h1>
 
-        <jsp:include page="/vues/components/menu.jsp" />
+<%@ include file="/vues/components/header.jspf"%>
+        <h1>Modifier un pompier</h1>
 
         <form method="post" action="/26CodeCafe/ServletPompier/ajouterPompier">
             <label>Nom</label>
@@ -33,5 +26,5 @@
         </form>
 
         <a href="/26CodeCafe/ServletPompier/listerPompiers">← Retour à la liste</a>
-    </body>
-</html>
+
+<%@ include file="/vues/components/footer.jspf"%>
