@@ -1,4 +1,6 @@
-<%  if (session.getAttribute(alertSessionKey) != null) { %>
+<%  if (session.getAttribute(alertSessionKey) != null) {
+        session.removeAttribute(alertSessionKey);
+%>
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <i class="bi bi-exclamation-triangle-fill me-2"></i>
     <span><%= alertMessage%></span>
