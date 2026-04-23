@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Author: JoackimV
@@ -55,5 +56,28 @@ public class ServletUtils {
      */
     public static void logUrl(HttpServletRequest request) {
         System.out.println("Passage dans la Servlet avec l'URL : " + request.getRequestURI());
+    }
+
+    /**
+     * Log de l'action qui est demandé au serveur
+     */
+    public static void logAction(String typeAction, String entity, Integer idElement, ArrayList<?> lesElements) {
+        switch (typeAction) {
+            case "lister":
+                System.out.println("[LISTE] nombre de " + entity + " lister = " + lesElements.size());
+                break;
+            case "consulter":
+                System.out.println("[CONSULTATION] " + entity + " afficher = " + idElement);
+                break;
+            case "modifier":
+                System.out.println("[MODIFICATION] " + entity + " afficher = " + idElement);
+                break;
+            case "archiver":
+                System.out.println("[ARCHIVATION] " + entity + " archiver = " + idElement);
+                break;
+            default:
+                System.out.println("[INCONNU] action inconnue = " + typeAction);
+                break;
+        }
     }
 }
