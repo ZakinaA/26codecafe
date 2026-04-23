@@ -1,15 +1,12 @@
 package bts.sio.codecafe.servlet;
 
-import bts.sio.codecafe.database.DaoCaserne;
-import bts.sio.codecafe.database.DaoIntervention;
 import bts.sio.codecafe.database.DaoIntervention;
 import bts.sio.codecafe.database.DaoSituation;
 import bts.sio.codecafe.form.FormIntervention;
-import bts.sio.codecafe.model.Caserne;
-import bts.sio.codecafe.model.Intervention;
 import bts.sio.codecafe.model.Intervention;
 import bts.sio.codecafe.model.Situation;
 import bts.sio.codecafe.utils.MenuBuilder;
+import bts.sio.codecafe.utils.ServletUtils;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,7 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -32,28 +28,33 @@ import java.util.ArrayList;
 public class ServletIntervention extends HttpServlet {
 
     Connection cnx;
+    // Premier élement
+    private static final String ENTITY = "intervention";
+    private static final String ENTITY_CAPITALIZED = "Intervention";
+    private static final String ENTITY_ID = "id" + ENTITY_CAPITALIZED;
+    private static final String BASE_URL = "/26CodeCafe/Servlet" + ENTITY_CAPITALIZED + "/";
+    private static final String CHEMIN_VUES = "/vues/" + ENTITY + "/";
+
+    private static final String ATTR = "p" + ENTITY_CAPITALIZED;
+    private static final String ATTR_LIST = "pLes" + ENTITY_CAPITALIZED + "s";
+
+    private static final String VUE_LISTER = CHEMIN_VUES + "lister" + ENTITY_CAPITALIZED + "s.jsp";
+    private static final String VUE_CONSULTER = CHEMIN_VUES + "consulter" + ENTITY_CAPITALIZED + ".jsp";
+    private static final String VUE_AJOUTER = CHEMIN_VUES + "ajouter" + ENTITY_CAPITALIZED + ".jsp";
+    private static final String VUE_MODIFIER = CHEMIN_VUES + "modifier" + ENTITY_CAPITALIZED + ".jsp";
+
+    private static final String REDIRECT_CONSULTER = BASE_URL + "consulter?id" + ENTITY_CAPITALIZED + "=";
+    private static final String REDIRECT_MODIFIER = BASE_URL + "modifier?id" + ENTITY_CAPITALIZED + "=";
+
+    // Deuxième élément
+    private static final String ENTITY2_CAPITALIZED = "Situation";
+
+    private static final String ATTR2_LIST = "pLes" + ENTITY2_CAPITALIZED + "s";
 
     @Override
     public void init() {
         ServletContext servletContext = getServletContext();
         cnx = (Connection) servletContext.getAttribute("connection");
-    }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletIntervention</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletIntervention at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,66 +71,53 @@ public class ServletIntervention extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = request.getRequestURI();
-        System.out.println("Passage dans la Servlet avec l'URL : " + request.getRequestURI());
+        ServletUtils.logUrl(request);
 
         request.setAttribute("menu", MenuBuilder.getMenu());
+        HttpSession session = request.getSession();
 
-        if (url.equals("/26CodeCafe/ServletIntervention/lister")) {
-            String archiveParam = request.getParameter("archive");
-            Integer archive = null;
-
-            if (archiveParam != null && !archiveParam.isEmpty()) {
-                archive = Integer.parseInt(archiveParam);
-            }
-            ArrayList<Intervention> lesInterventions = DaoIntervention.getLesInterventions(cnx, archive);
-            request.setAttribute("pLesInterventions", lesInterventions);
-            getServletContext().getRequestDispatcher("/vues/intervention/listerInterventions.jsp").forward(request, response);
+        if (url.equals(BASE_URL + "lister")) {
+            Integer archive = ServletUtils.parseArchiveParam(request);
+            ArrayList<Intervention> lesElements = DaoIntervention.getLesInterventions(cnx, archive);
+            System.out.println("[LISTE] nombre de intervention à lister = " + lesElements.size());
+            request.setAttribute(ATTR_LIST, lesElements);
+            getServletContext().getRequestDispatcher(VUE_LISTER).forward(request, response);
         }
 
-        if (url.equals("/26CodeCafe/ServletIntervention/consulter")) {
-            int idIntervention = Integer.parseInt((String) request.getParameter("idIntervention"));
-            System.out.println("intervention à afficher = " + idIntervention);
-            Intervention c = DaoIntervention.getInterventionById(cnx, idIntervention);
-            request.setAttribute("pIntervention", c);
-            getServletContext().getRequestDispatcher("/vues/intervention/consulterIntervention.jsp").forward(request, response);
+        if (url.equals(BASE_URL + "consulter")) {
+            int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
+            System.out.println("[CONSULTATION] intervention à afficher = " + idElement);
+            Intervention element = DaoIntervention.getInterventionById(cnx, idElement);
+            request.setAttribute(ATTR, element);
+            getServletContext().getRequestDispatcher(VUE_CONSULTER).forward(request, response);
         }
 
-        if (url.equals("/26CodeCafe/ServletIntervention/ajouter")) {
-            ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
-            request.setAttribute("pLesSituations", lesSituations);
-            this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp").forward(request, response);
+        if (url.equals(BASE_URL + "ajouter")) {
+            ArrayList<Situation> lesElements2 = DaoSituation.getLesSituations(cnx, 0);
+            request.setAttribute(ATTR2_LIST, lesElements2);
+            this.getServletContext().getRequestDispatcher(VUE_AJOUTER).forward(request, response);
         }
 
-        if (url.equals("/26CodeCafe/ServletIntervention/modifier")) {
-            int idIntervention = Integer.parseInt((String) request.getParameter("idIntervention"));
-            System.out.println("intervention à afficher = " + idIntervention);
-            Intervention i = DaoIntervention.getInterventionById(cnx, idIntervention);
-            request.setAttribute("pIntervention", i);
-            ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
-            request.setAttribute("pLesSituations", lesSituations);
-            this.getServletContext().getRequestDispatcher("/vues/intervention/modifierIntervention.jsp").forward(request, response);
+        if (url.equals(BASE_URL + "modifier")) {
+            int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
+            System.out.println("[MODIFICATION] intervention à afficher = " + idElement);
+            Intervention element = DaoIntervention.getInterventionById(cnx, idElement);
+            ArrayList<Situation> lesElements2 = DaoSituation.getLesSituations(cnx, 0);
+            request.setAttribute(ATTR2_LIST, lesElements2);
+            request.setAttribute(ATTR, element);
+            this.getServletContext().getRequestDispatcher(VUE_MODIFIER).forward(request, response);
         }
 
-        if (url.equals("/26CodeCafe/ServletIntervention/archiver")) {
-            int idIntervention = Integer.parseInt(request.getParameter("idIntervention"));
+        if (url.equals(BASE_URL + "archiver")) {
+            int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
+            System.out.println("[ARCHIVATION] intervention à archiver = " + idElement);
             int archive = Integer.parseInt(request.getParameter("archive")); // 0 ou 1
 
-            int resultatToggleArchive = DaoIntervention.toggleArchiveIntervention(cnx, idIntervention, archive);
-            String archiveStatut = resultatToggleArchive == 1 ? "success" : "fail";
-            String actionLibelle = archive == 1 ? "Archivage" : "Désarchivage";
-            HttpSession session = request.getSession();
-            session.setAttribute("pArchiveStatut", archiveStatut);
-            session.setAttribute("pArchiveAction", actionLibelle);
+            int resultatToggleArchive = DaoIntervention.toggleArchiveIntervention(cnx, idElement, archive);
+            ServletUtils.setArchiveSession(session, resultatToggleArchive, archive);
 
-            // Rediriger vers la liste en conservant le filtre courant
-            String retour = request.getParameter("retour");
             // Si retour est vide ou null, on redirige sans paramètre
-            if (retour == null || retour.isEmpty()) {
-                response.sendRedirect("/26CodeCafe/ServletIntervention/lister");
-            } else {
-                response.sendRedirect("/26CodeCafe/ServletIntervention/lister?archive=" + retour);
-            }
-
+            ServletUtils.redirectAvecFiltreArchive(response, BASE_URL + "lister", request);
         }
     }
 
@@ -148,60 +136,41 @@ public class ServletIntervention extends HttpServlet {
         FormIntervention form = new FormIntervention();
 
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
-        Intervention i = form.remplirIntervention(request);
+        Intervention element = form.remplirIntervention(request);
 
         /* Stockage du formulaire et de l'objet dans l'objet request */
         request.setAttribute("form", form);
-        request.setAttribute("pIntervention", i);
 
         String action = request.getParameter("action");
 
+        HttpSession session = request.getSession();
+
         if (form.getErreurs().isEmpty()) {
-            ArrayList<Situation> lesSituations = DaoSituation.getLesSituations(cnx, 0);
-            HttpSession session = request.getSession();
-            if ( "ajouter".equals(action) ) {
-                Intervention interventionInsere = DaoIntervention.addIntervention(cnx, i);
-                if (interventionInsere != null) {
+            if ("ajouter".equals(action)) {
+                Intervention insere = DaoIntervention.addIntervention(cnx, element);
+                if (insere != null) {
                     session.setAttribute("pAjoutStatut", "success");
-                    response.sendRedirect("/26CodeCafe/ServletIntervention/consulter?idIntervention=" + interventionInsere.getId());
-                } else {
-                    // Cas oùl'insertion en bdd a échoué
-                    //renvoyer vers une page d'erreur
+                    response.sendRedirect(REDIRECT_CONSULTER + insere.getId());
                 }
-            } else if ( "modifier".equals(action) ) {
-                int resultatModif = DaoIntervention.updateInterventionById(cnx, i);
-                if ( resultatModif == 1 ) {
+            } else if ("modifier".equals(action)) {
+                int resultatModif = DaoIntervention.updateInterventionById(cnx, element);
+                if (resultatModif == 1) {
                     session.setAttribute("pModifStatut", "success");
-                    Intervention interventionModifie = DaoIntervention.getInterventionById(cnx, i.getId());
-                    response.sendRedirect("/26CodeCafe/ServletIntervention/consulter?idIntervention=" + interventionModifie.getId());
-                } else {
-
+                    Intervention modifie = DaoIntervention.getInterventionById(cnx, element.getId());
+                    response.sendRedirect(REDIRECT_CONSULTER + modifie.getId());
                 }
+            }
+        } else {
+            if ("ajouter".equals(action)) {
+                session.setAttribute("pAjoutStatut", "fail");
+                this.getServletContext().getRequestDispatcher(VUE_AJOUTER).forward(request, response);
             } else {
-                // il y a des erreurs. On réaffiche le formulaire avec des messages d'erreurs
-                request.setAttribute("pLesSituations", lesSituations);
-                if ( "ajouter".equals(action) ) {
-                    request.setAttribute("pLesSituations", lesSituations);
-                    session.setAttribute("pAjoutStatut", "fail");
-
-                    this.getServletContext().getRequestDispatcher("/vues/intervention/ajouterIntervention.jsp").forward(request, response);
-                } else {
-                    session.setAttribute("pModifStatut", "fail");
-                    request.setAttribute("pIntervention", i);
-                    request.setAttribute("pLesSituations", lesSituations);
-                    response.sendRedirect("/26CodeCafe/ServletIntervention/modifier?idIntervention=" + i.getId());
-                }
+                request.setAttribute(ATTR, element);
+                session.setAttribute("pModifStatut", "fail");
+                ArrayList<Situation> lesElements2 = DaoSituation.getLesSituations(cnx, 0);
+                request.setAttribute(ATTR2_LIST, lesElements2);
+                response.sendRedirect(REDIRECT_MODIFIER + element.getId());
             }
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </e// ditor-fold>
 }
