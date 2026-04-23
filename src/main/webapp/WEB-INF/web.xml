@@ -53,6 +53,18 @@
         <url-pattern>/ServletSituation/ajouter</url-pattern>
         <url-pattern>/ServletSituation/modifier</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletTypeEngin</servlet-name>
+        <servlet-class>bts.sio.codecafe.servlet.ServletTypeEngin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletTypeEngin</servlet-name>
+        <url-pattern>/ServletTypeEngin/*</url-pattern>
+        <url-pattern>/ServletTypeEngin/lister</url-pattern>
+        <url-pattern>/ServletTypeEngin/consulter</url-pattern>
+        <url-pattern>/ServletTypeEngin/ajouter</url-pattern>
+        <url-pattern>/ServletTypeEngin/modifier</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
