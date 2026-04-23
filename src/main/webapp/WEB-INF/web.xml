@@ -53,6 +53,10 @@
         <url-pattern>/ServletSituation/ajouter</url-pattern>
         <url-pattern>/ServletSituation/modifier</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletTypeEngin</servlet-name>
+        <servlet-class>bts.sio.codecafe.servlet.ServletTypeEngin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletTypeEngin</servlet-name>
         <url-pattern>/ServletTypeEngin/*</url-pattern>

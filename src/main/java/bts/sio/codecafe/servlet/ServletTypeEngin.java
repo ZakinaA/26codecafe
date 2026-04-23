@@ -28,14 +28,15 @@ public class ServletTypeEngin extends HttpServlet {
     Connection cnx;
     private static final String ENTITY = "type_engin";
     private static final String ENTITY_CAPITALIZED = "TypeEngin";
+    private static final String ENTITY_CAPITALIZED_PLURAL = "TypesEngin";
     private static final String ENTITY_ID = "id" + ENTITY_CAPITALIZED;
     private static final String BASE_URL = "/26CodeCafe/Servlet" + ENTITY_CAPITALIZED + "/";
     private static final String CHEMIN_VUES = "/vues/" + ENTITY + "/";
 
     private static final String ATTR = "p" + ENTITY_CAPITALIZED;
-    private static final String ATTR_LIST = "pLes" + ENTITY_CAPITALIZED + "s";
+    private static final String ATTR_LIST = "pLes" + ENTITY_CAPITALIZED_PLURAL;
 
-    private static final String VUE_LISTER = CHEMIN_VUES + "lister" + ENTITY_CAPITALIZED + "s.jsp";
+    private static final String VUE_LISTER = CHEMIN_VUES + "lister" + ENTITY_CAPITALIZED_PLURAL + ".jsp";
     private static final String VUE_CONSULTER = CHEMIN_VUES + "consulter" + ENTITY_CAPITALIZED + ".jsp";
     private static final String VUE_AJOUTER = CHEMIN_VUES + "ajouter" + ENTITY_CAPITALIZED + ".jsp";
     private static final String VUE_MODIFIER = CHEMIN_VUES + "modifier" + ENTITY_CAPITALIZED + ".jsp";
