@@ -79,14 +79,14 @@ public class ServletIntervention extends HttpServlet {
         if (url.equals(BASE_URL + "lister")) {
             Integer archive = ServletUtils.parseArchiveParam(request);
             ArrayList<Intervention> lesElements = DaoIntervention.getLesInterventions(cnx, archive);
-            System.out.println("[LISTE] nombre de intervention à lister = " + lesElements.size());
+            ServletUtils.logAction("lister", ENTITY, null, lesElements);
             request.setAttribute(ATTR_LIST, lesElements);
             getServletContext().getRequestDispatcher(VUE_LISTER).forward(request, response);
         }
 
         if (url.equals(BASE_URL + "consulter")) {
             int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
-            System.out.println("[CONSULTATION] intervention à afficher = " + idElement);
+            ServletUtils.logAction("consulter", ENTITY, idElement, null);
             Intervention element = DaoIntervention.getInterventionById(cnx, idElement);
             request.setAttribute(ATTR, element);
             getServletContext().getRequestDispatcher(VUE_CONSULTER).forward(request, response);
@@ -100,7 +100,7 @@ public class ServletIntervention extends HttpServlet {
 
         if (url.equals(BASE_URL + "modifier")) {
             int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
-            System.out.println("[MODIFICATION] intervention à afficher = " + idElement);
+            ServletUtils.logAction("modifier", ENTITY, idElement, null);
             Intervention element = DaoIntervention.getInterventionById(cnx, idElement);
             ArrayList<Situation> lesElements2 = DaoSituation.getLesSituations(cnx, 0);
             request.setAttribute(ATTR2_LIST, lesElements2);
@@ -110,7 +110,7 @@ public class ServletIntervention extends HttpServlet {
 
         if (url.equals(BASE_URL + "archiver")) {
             int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
-            System.out.println("[ARCHIVATION] intervention à archiver = " + idElement);
+            ServletUtils.logAction("archiver", ENTITY, idElement, null);
             int archive = Integer.parseInt(request.getParameter("archive")); // 0 ou 1
 
             int resultatToggleArchive = DaoIntervention.toggleArchiveIntervention(cnx, idElement, archive);

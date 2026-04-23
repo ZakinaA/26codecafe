@@ -71,14 +71,14 @@ public class ServletSituation extends HttpServlet {
         if (url.equals(BASE_URL + "lister")) {
             Integer archive = ServletUtils.parseArchiveParam(request);
             ArrayList<Situation> lesElements = DaoSituation.getLesSituations(cnx, archive);
-            System.out.println("[LISTE] nombre de situation à lister = " + lesElements.size());
+            ServletUtils.logAction("lister", ENTITY, null, lesElements);
             request.setAttribute(ATTR_LIST, lesElements);
             getServletContext().getRequestDispatcher(VUE_LISTER).forward(request, response);
         }
 
         if (url.equals(BASE_URL + "consulter")) {
             int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
-            System.out.println("[CONSULTATION] situation à afficher = " + idElement);
+            ServletUtils.logAction("consulter", ENTITY, idElement, null);
             Situation element = DaoSituation.getSituationById(cnx, idElement);
             request.setAttribute(ATTR, element);
             getServletContext().getRequestDispatcher(VUE_CONSULTER).forward(request, response);
@@ -90,7 +90,7 @@ public class ServletSituation extends HttpServlet {
 
         if (url.equals(BASE_URL + "modifier")) {
             int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
-            System.out.println("[MODIFICATION] situation à afficher = " + idElement);
+            ServletUtils.logAction("modifier", ENTITY, idElement, null);
             Situation element = DaoSituation.getSituationById(cnx, idElement);
             request.setAttribute(ATTR, element);
             this.getServletContext().getRequestDispatcher(VUE_MODIFIER).forward(request, response);
@@ -98,7 +98,7 @@ public class ServletSituation extends HttpServlet {
 
         if (url.equals(BASE_URL + "archiver")) {
             int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
-            System.out.println("[ARCHIVATION] situation à archiver = " + idElement);
+            ServletUtils.logAction("archiver", ENTITY, idElement, null);
             int archive = Integer.parseInt(request.getParameter("archive")); // 0 ou 1
 
             int resultatToggleArchive = DaoSituation.toggleArchiveSituation(cnx, idElement, archive);
