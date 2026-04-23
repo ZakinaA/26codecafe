@@ -1,4 +1,14 @@
-        </main>
+<%@ page import="java.time.Year" %>
+</main>
+        <footer class="border-top py-2 px-4 bg-body-secondary d-flex
+                       justify-content-between align-items-center"
+                style="height: 40px;">
+            <span class="text-secondary small">
+                © <%= Year.now().getValue() == 2026 ? "2026" : "2026 - " + Year.now() %> | CodeCafe. Tous droits réservés.
+            </span>
+            <span class="text-secondary small">BTS SIO SLAM - Lycée Jean Rostand</span>
+        </footer>
+        </div>
     </div>
 
     <script src="${pageContext.request.contextPath}/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
