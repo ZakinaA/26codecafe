@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import bts.sio.codecafe.model.Caserne;
 import bts.sio.codecafe.model.Pompier;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class DaoPompier {
 
@@ -131,4 +133,80 @@ public class DaoPompier {
         }
         return p;
     }
+    
+    private static void mapResultSetToPompier(Pompier p) throws SQLException {
+        p.setId(resultatRequete.getInt("p_id"));
+        p.setNom(resultatRequete.getString("p_nom"));
+        p.setPrenom(resultatRequete.getString("p_prenom"));
+        p.setNumeroBip(resultatRequete.getString("p_numeroBip"));
+        p.setDateNaissance(resultatRequete.getDate("p_dateNaissance").toLocalDate());
+        p.setIndiceTraitement(resultatRequete.getString("p_indiceTraitement"));
+        p.setDateObtentionIndice(resultatRequete.getDate("p_dateObtentionIndice").toLocalDate());
+
+    }
+    
+    
+    public static int updatePompierById(Connection connection, Pompier i) {
+        int rs = 0;
+
+        try {
+            requeteSql = connection.prepareStatement("UPDATE intervention SET nom = ?, prenom = ?," +
+                    " numero_bip = ?, date_naissance = ?, indice_traitement = ?, date_obtention_indice = ?, caserne_id = ?" +
+                    " WHERE pompier.id = ?");
+            setParametersPompier(i);
+            requeteSql.setInt(8, i.getId());
+
+            rs = requeteSql.executeUpdate();
+
+            if (rs == 1) {
+                System.out.println("Mise à jour OK");
+            } else if (rs == 0) {
+                System.out.println("Aucune ligne mise à jour");
+            } else {
+                System.out.println("Attention : plusieurs lignes modifiées !");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("La requête de updatePompierById a généré une erreur");
+        }
+        return rs;
+    }
+
+    private static void setParametersPompier(Pompier p) throws SQLException {
+        requeteSql.setString(1, p.getNom());
+        requeteSql.setString(2, p.getPrenom());
+        requeteSql.setString(3, p.getNumeroBip());
+        requeteSql.setDate(4, Date.valueOf(p.getDateNaissance()));
+        requeteSql.setString(5, p.getIndiceTraitement());
+        requeteSql.setDate(6, Date.valueOf(p.getDateObtentionIndice()));
+        requeteSql.setInt(7, p.getUneCaserne().getId());
+    }
+
+    public static int toggleArchivePompier(Connection connection, int idPompier, int archive) {
+        int rs = 0;
+        try {
+            requeteSql = connection.prepareStatement(
+                    "UPDATE intervention SET archive = ? WHERE id = ?"
+            );
+
+            requeteSql.setInt(1, archive);
+            requeteSql.setInt(2, idPompier);
+
+            rs = requeteSql.executeUpdate();
+
+            if (rs == 1) {
+                System.out.println("Archivage OK");
+            } else if (rs == 0) {
+                System.out.println("Aucune ligne archivée");
+            } else {
+                System.out.println("Attention : plusieurs lignes archivées !");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("La requête de toggleArchivePompier a généré une erreur");
+        }
+        return rs;
+    }
 }
+
+

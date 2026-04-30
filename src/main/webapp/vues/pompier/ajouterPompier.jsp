@@ -1,30 +1,87 @@
-
-<%@page import="java.util.ArrayList, bts.sio.codecafe.model.Caserne"%>
+<%@ page import="bts.sio.codecafe.model.Situation" %>
+<%@ page import="java.util.ArrayList" %>
 
 <%@ include file="/vues/components/header.jspf"%>
-        <h1>Ajouter un pompier</h1>
 
-        <form method="post" action="/26CodeCafe/ServletPompier/ajouterPompier">
-            <label>Nom</label>
-            <input type="text" name="nom">
-            <br>
-            <label>Prénom</label>
-            <input type="text" name="prenom">
-            <br>
-            <label>Caserne</label>
-            <select name="idCaserne">
-                <option value="">-- Sélectionner une caserne --</option>
+        <!-- Formulaire -->
+        <div class="card border-0">
+            <div class="card-header">
+                <h1 class="h3 mt-2 mb-0 fw-semibold">Ajout d'un pompier </h1>
+                <span class="text-secondary small mt-1">Remplissez les informations du nouveau pompier .</span>
+            </div>
+            <div class="card-body p-4">
                 <%
-                    ArrayList<Caserne> lesCasernes = (ArrayList<Caserne>) request.getAttribute("pLesCasernes");
-                    for (Caserne c : lesCasernes) {
+                    String alertSessionKey = "pAjoutStatut";
+                    String alertMessage = "L'ajout a échoué";
                 %>
-                <option value="<%= c.getId() %>"><%= c.getNom() %></option>
-                <% } %>
-            </select>
-            <br>
-            <input type="submit" value="Ajouter le pompier">
-        </form>
+                <%@ include file="/vues/components/alertFail.jspf"%>
+                <form method="post" action="/26CodeCafe/ServletPompier/ajouter">
+                    <input type="hidden" name="action" value="ajouter">
 
-        <a href="/26CodeCafe/ServletPompier/listerPompiers">← Retour à la liste</a>
+                    <!-- Adresse -->
+                    <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
+                        Nom
+                    </h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <label class="form-label fw-medium"></label>
+                            <input type="text" name="nom" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+
+                    <!-- Horaires -->
+                    <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
+                        Horaires
+                    </h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label fw-medium">Heure d'appel</label>
+                            <input type="time" name="heureAppel" class="form-control">
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label fw-medium">Heure d'arrivée</label>
+                            <input type="time" name="heureArrivee" class="form-control">
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label fw-medium">Durée (minutes)</label>
+                            <input type="number" name="duree" class="form-control"
+                                   placeholder="Ex: 45" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Situation -->
+                    <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
+                        Situation
+                    </h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Situation</label>
+                            <select name="idSituation" class="form-select">
+                                <option value="">-- Sélectionner une situation --</option>
+                                <%
+                                    ArrayList<Situation> lesSituations = (ArrayList<Situation>) request.getAttribute("pLesSituations");
+                                    for (Situation s : lesSituations) {
+                                %>
+                                <option value="<%= s.getId() %>"><%= s.getLibelle() %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex gap-2 pt-3 border-top">
+                        <button type="submit" class="btn btn-primary px-4">
+                            Ajouter
+                        </button>
+                        <a href="/26CodeCafe/ServletPompier/lister"
+                           class="btn btn-outline-secondary px-4">
+                            Annuler
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
 
 <%@ include file="/vues/components/footer.jspf"%>

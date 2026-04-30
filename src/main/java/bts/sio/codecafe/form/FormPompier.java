@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import bts.sio.codecafe.model.Caserne;
 import bts.sio.codecafe.model.Pompier;
+import java.time.LocalDate;
 
 /**
  *
@@ -34,13 +35,6 @@ public class FormPompier {
     public void setErreurs(Map<String, String> erreurs) {
         this.erreurs = erreurs;
     }
-    
-    //méthode de validation du champ de saisie nom
-    private void validationNom( String nom ) throws Exception {
-        if ( nom != null && nom.length() < 3 ) {
-        throw new Exception( "Le nom d'utilisateur doit contenir au moins 3 caractères." );
-        }
-    }
 
     private void setErreur( String champ, String message ) {
     erreurs.put(champ, message );
@@ -55,33 +49,41 @@ public class FormPompier {
         }   
     }
     
-    
-    public Pompier ajouterPompier( HttpServletRequest request ) {
+    public Pompier remplirPompier( HttpServletRequest request ) {
       
         Pompier p  = new Pompier();
-         
-        String nom = getDataForm( request, "nom" );
-        String prenom = getDataForm( request, "prenom");
-        int idPompier = Integer.parseInt((String)getDataForm( request, "idCaserne" ));
-       
-      
-        try {
-             validationNom( nom );
-        } catch ( Exception e ) {
-            setErreur( "nom", e.getMessage() );
+
+        // Hydratation de l'id et de l'archive si c'est pour modifier
+        String idStr = getDataForm(request, "id");
+        if ( idStr != null && !idStr.isEmpty() ) {
+            p.setId(Integer.parseInt(idStr));
         }
+
+
+        // Hydratation du reste
+        String nom = getDataForm( request, "nom" );
+        String prenom = getDataForm( request, "prenom" );
+        String numeroBip = getDataForm( request, "numeroBip" );
+        LocalDate dateNaissance = LocalDate.parse((String)getDataForm( request, "dateNaissance" ));
+        String indiceTraitement = getDataForm ( request, "indiceTraitement");
+        LocalDate dateObtentionIndice = LocalDate.parse((String)getDataForm( request, "dateObtentionIndice" ));
+        int caserne = Integer.parseInt((String)getDataForm( request, "idCaserne" ));
+
+        Caserne c = new Caserne(caserne);
+
         p.setNom(nom);
+        p.setPrenom(prenom);
+        p.setNumeroBip(numeroBip);
+        p.setDateNaissance(dateNaissance);
+        p.setIndiceTraitement(indiceTraitement);
+        p.setDateObtentionIndice(dateObtentionIndice);
+        p.setUneCaserne(c);
 
         if ( erreurs.isEmpty() ) {
             resultat = "Succès de l'ajout.";
         } else {
             resultat = "Échec de l'ajout.";
         }
-         
-      
-        p.setPrenom(prenom);
-
-        p.setUneCaserne(new Caserne(idPompier));
         
         return p ;
     }

@@ -1,177 +1,176 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package bts.sio.codecafe.servlet;
 
-import bts.sio.codecafe.database.DaoCaserne;
 import bts.sio.codecafe.database.DaoPompier;
+import bts.sio.codecafe.database.DaoSituation;
 import bts.sio.codecafe.form.FormPompier;
+import bts.sio.codecafe.model.Pompier;
+import bts.sio.codecafe.model.Situation;
 import bts.sio.codecafe.utils.MenuBuilder;
+import bts.sio.codecafe.utils.ServletUtils;
 import jakarta.servlet.ServletContext;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
-import bts.sio.codecafe.model.Caserne;
-import bts.sio.codecafe.model.Pompier;
-
 
 /**
- *
- * @author zakina
+ * Author: JoackimV
+ * Created: 02/04/2026 19:32
+ * Last modified: 02/04/2026 19:32
  */
+@WebServlet(name = "ServletPompier", urlPatterns = {"/ServletPompier"})
 public class ServletPompier extends HttpServlet {
 
-     Connection cnx ;
-            
-    @Override
-    public void init()
-    {     
-        ServletContext servletContext=getServletContext();
-        cnx = (Connection)servletContext.getAttribute("connection");     
-    }
+    Connection cnx;
+    // Premier élement
+    private static final String ENTITY = "pompier";
+    private static final String ENTITY_CAPITALIZED = "Pompier";
+    private static final String ENTITY_ID = "id" + ENTITY_CAPITALIZED;
+    private static final String BASE_URL = "/26CodeCafe/Servlet" + ENTITY_CAPITALIZED + "/";
+    private static final String CHEMIN_VUES = "/vues/" + ENTITY + "/";
 
-    
-    
-    
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletPompier</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletPompier at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+    private static final String ATTR = "p" + ENTITY_CAPITALIZED;
+    private static final String ATTR_LIST = "pLes" + ENTITY_CAPITALIZED + "s";
+
+    private static final String VUE_LISTER = CHEMIN_VUES + "lister" + ENTITY_CAPITALIZED + "s.jsp";
+    private static final String VUE_CONSULTER = CHEMIN_VUES + "consulter" + ENTITY_CAPITALIZED + ".jsp";
+    private static final String VUE_AJOUTER = CHEMIN_VUES + "ajouter" + ENTITY_CAPITALIZED + ".jsp";
+    private static final String VUE_MODIFIER = CHEMIN_VUES + "modifier" + ENTITY_CAPITALIZED + ".jsp";
+
+    private static final String REDIRECT_CONSULTER = BASE_URL + "consulter?id" + ENTITY_CAPITALIZED + "=";
+    private static final String REDIRECT_MODIFIER = BASE_URL + "modifier?id" + ENTITY_CAPITALIZED + "=";
+
+    // Deuxième élément
+    private static final String ENTITY2_CAPITALIZED = "Situation";
+
+    private static final String ATTR2_LIST = "pLes" + ENTITY2_CAPITALIZED + "s";
+
+    @Override
+    public void init() {
+        ServletContext servletContext = getServletContext();
+        cnx = (Connection) servletContext.getAttribute("connection");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-         String url = request.getRequestURI();
+        String url = request.getRequestURI();
+        ServletUtils.logUrl(request);
 
         request.setAttribute("menu", MenuBuilder.getMenu());
-       
-        // Récup et affichage les eleves 
-        if(url.equals("/26CodeCafe/ServletPompier/listerPompiers"))
-        {              
-            ArrayList<Pompier> lesPompiers = DaoPompier.getLesPompiers(cnx);
-            request.setAttribute("pLesPompiers", lesPompiers);
-            //System.out.println("lister eleves - nombres d'élèves récupérés" + lesEleves.size() );
-           getServletContext().getRequestDispatcher("/vues/pompier/listerPompiers.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+
+        if (url.equals(BASE_URL + "lister")) {
+            Integer archive = ServletUtils.parseArchiveParam(request);
+            ArrayList<Pompier> lesElements = DaoPompier.getLesPompiers(cnx);
+            ServletUtils.logAction("lister", ENTITY, null, lesElements);
+            request.setAttribute(ATTR_LIST, lesElements);
+            getServletContext().getRequestDispatcher(VUE_LISTER).forward(request, response);
         }
-        
-         // Récup et affichage des clients interessés par une certaine catégorie de ventes
-        if(url.equals("/26CodeCafe/ServletPompier/consulterPompier"))
-        {  
-            // tout paramètre récupéré de la request Http est de type String
-            // Il est donc nécessaire de caster le paramètre idPompier en int
-            int idPompier = Integer.parseInt((String)request.getParameter("idPompier"));
-            System.out.println( "pompier à afficher = " + idPompier);
-            Pompier p= DaoPompier.getPompierById(cnx, idPompier);
-            request.setAttribute("pPompier", p);
-            getServletContext().getRequestDispatcher("/vues/pompier/consulterPompier.jsp").forward(request, response);       
-           
-           
+
+        if (url.equals(BASE_URL + "consulter")) {
+            int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
+            ServletUtils.logAction("consulter", ENTITY, idElement, null);
+            Pompier element = DaoPompier.getPompierById(cnx, idElement);
+            request.setAttribute(ATTR, element);
+            getServletContext().getRequestDispatcher(VUE_CONSULTER).forward(request, response);
         }
-        
-        if(url.equals("/26CodeCafe/ServletPompier/ajouterPompier"))
-        {                   
-            ArrayList<Caserne> lesCasernes = DaoCaserne.getLesCasernes(cnx);
-            request.setAttribute("pLesCasernes", lesCasernes);
-            this.getServletContext().getRequestDispatcher("/vues/pompier/ajouterPompier.jsp" ).forward( request, response );
+
+        if (url.equals(BASE_URL + "ajouter")) {
+            ArrayList<Situation> lesElements2 = DaoSituation.getLesSituations(cnx, 0);
+            request.setAttribute(ATTR2_LIST, lesElements2);
+            this.getServletContext().getRequestDispatcher(VUE_AJOUTER).forward(request, response);
         }
-        
-        
-        
-        
+
+        if (url.equals(BASE_URL + "modifier")) {
+            int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
+            ServletUtils.logAction("modifier", ENTITY, idElement, null);
+            Pompier element = DaoPompier.getPompierById(cnx, idElement);
+            ArrayList<Situation> lesElements2 = DaoSituation.getLesSituations(cnx, 0);
+            request.setAttribute(ATTR2_LIST, lesElements2);
+            request.setAttribute(ATTR, element);
+            this.getServletContext().getRequestDispatcher(VUE_MODIFIER).forward(request, response);
+        }
+
+        if (url.equals(BASE_URL + "archiver")) {
+            int idElement = Integer.parseInt(request.getParameter(ENTITY_ID));
+            ServletUtils.logAction("archiver", ENTITY, idElement, null);
+            int archive = Integer.parseInt(request.getParameter("archive")); // 0 ou 1
+
+            int resultatToggleArchive = DaoPompier.toggleArchivePompier(cnx, idElement, archive);
+            ServletUtils.setArchiveSession(session, resultatToggleArchive, archive);
+
+            // Si retour est vide ou null, on redirige sans paramètre
+            ServletUtils.redirectAvecFiltreArchive(response, BASE_URL + "lister", request);
+        }
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-         FormPompier form = new FormPompier();
-		
+
+        FormPompier form = new FormPompier();
+
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
-        Pompier p = form.ajouterPompier(request);
-        
-        
+        Pompier element = form.remplirPompier(request);
+
         /* Stockage du formulaire et de l'objet dans l'objet request */
-        request.setAttribute( "form", form );
-        request.setAttribute( "pPompier", p );
-		
-        if (form.getErreurs().isEmpty()){
-            Pompier pompierInsere =  DaoPompier.addPompier(cnx, p);
-            if (pompierInsere != null ){
-                request.setAttribute( "pPompier", pompierInsere );
-                this.getServletContext().getRequestDispatcher("/vues/pompier/consulterPompier.jsp" ).forward( request, response );
+        request.setAttribute("form", form);
+
+        String action = request.getParameter("action");
+
+        HttpSession session = request.getSession();
+
+        if (form.getErreurs().isEmpty()) {
+            if ("ajouter".equals(action)) {
+                Pompier insere = DaoPompier.addPompier(cnx, element);
+                if (insere != null) {
+                    session.setAttribute("pAjoutStatut", "success");
+                    response.sendRedirect(REDIRECT_CONSULTER + insere.getId());
+                }
+            } else if ("modifier".equals(action)) {
+                int resultatModif = DaoPompier.updatePompierById(cnx, element);
+                if (resultatModif == 1) {
+                    session.setAttribute("pModifStatut", "success");
+                    Pompier modifie = DaoPompier.getPompierById(cnx, element.getId());
+                    response.sendRedirect(REDIRECT_CONSULTER + modifie.getId());
+                }
             }
-            else 
-            {
-                // Cas oùl'insertion en bdd a échoué
-                //renvoyer vers une page d'erreur 
+        } else {
+            if ("ajouter".equals(action)) {
+                session.setAttribute("pAjoutStatut", "fail");
+                this.getServletContext().getRequestDispatcher(VUE_AJOUTER).forward(request, response);
+            } else {
+                request.setAttribute(ATTR, element);
+                session.setAttribute("pModifStatut", "fail");
+                ArrayList<Situation> lesElements2 = DaoSituation.getLesSituations(cnx, 0);
+                request.setAttribute(ATTR2_LIST, lesElements2);
+                response.sendRedirect(REDIRECT_MODIFIER + element.getId());
             }
-           
         }
-        else
-        { 
-            // il y a des erreurs. On réaffiche le formulaire avec des messages d'erreurs
-            ArrayList<Caserne> lesCasernes = DaoCaserne.getLesCasernes(cnx);
-            request.setAttribute("pLesCasernes", lesCasernes);
-            this.getServletContext().getRequestDispatcher("/vues/pompier/ajouterPompier.jsp" ).forward( request, response );
-        }
-        
-        
-        
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
