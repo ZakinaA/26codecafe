@@ -1,4 +1,4 @@
-<%@ page import="bts.sio.codecafe.model.Situation" %>
+<%@ page import="bts.sio.codecafe.model.Caserne" %>
 <%@ page import="java.util.ArrayList" %>
 
 <%@ include file="/vues/components/header.jspf"%>
@@ -18,52 +18,81 @@
                 <form method="post" action="/26CodeCafe/ServletPompier/ajouter">
                     <input type="hidden" name="action" value="ajouter">
 
-                    <!-- Adresse -->
+                    <!-- Identité -->
                     <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
-                        Nom
+                        Identité
                     </h6>
                     <div class="row g-3 mb-4">
                         <div class="col-12 col-md-12 col-lg-4">
-                            <label class="form-label fw-medium"></label>
+                            <label class="form-label fw-medium">Nom</label>
                             <input type="text" name="nom" class="form-control"
                                    placeholder="">
                         </div>
                     </div>
-
-                    <!-- Horaires -->
-                    <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
-                        Horaires
-                    </h6>
+                    
                     <div class="row g-3 mb-4">
-                        <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label fw-medium">Heure d'appel</label>
-                            <input type="time" name="heureAppel" class="form-control">
-                        </div>
-                        <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label fw-medium">Heure d'arrivée</label>
-                            <input type="time" name="heureArrivee" class="form-control">
-                        </div>
-                        <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label fw-medium">Durée (minutes)</label>
-                            <input type="number" name="duree" class="form-control"
-                                   placeholder="Ex: 45" min="0">
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <label class="form-label fw-medium">Prenom</label>
+                            <input type="text" name="prenom" class="form-control"
+                                   placeholder="">
                         </div>
                     </div>
-
-                    <!-- Situation -->
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <label class="form-label fw-medium">Numero BIP</label>
+                            <input type="text" name="numeroBip" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <label class="form-label fw-medium">Date naissance</label>
+                            <input type="date" name="dateNaissance" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <label class="form-label fw-medium">Indice traitement</label>
+                            <input type="text" name="indiceTraitement" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <label class="form-label fw-medium">Date obtention indice</label>
+                            <input type="date" name="dateObtentionIndice" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <label class="form-label fw-medium">Status</label>
+                            <input type="text" name="status" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- Caserne -->
                     <h6 class="text-uppercase text-secondary small fw-semibold pb-1 border-bottom mb-3">
-                        Situation
+                        Caserbe
                     </h6>
                     <div class="row g-3 mb-4">
                         <div class="col-12">
-                            <label class="form-label fw-medium">Situation</label>
-                            <select name="idSituation" class="form-select">
-                                <option value="">-- Sélectionner une situation --</option>
+                            <label class="form-label fw-medium">Caserne</label>
+                            <select name="idCaserne" class="form-select">
+                                <option value="">-- Sélectionner une caserne --</option>
                                 <%
-                                    ArrayList<Situation> lesSituations = (ArrayList<Situation>) request.getAttribute("pLesSituations");
-                                    for (Situation s : lesSituations) {
+                                    ArrayList<Caserne> lesCasernes = (ArrayList<Caserne>) request.getAttribute("pLesCasernes");
+                                    for (Caserne s : lesCasernes) {
                                 %>
-                                <option value="<%= s.getId() %>"><%= s.getLibelle() %></option>
+                                <option value="<%= s.getId() %>"><%= s.getNom() %></option>
                                 <% } %>
                             </select>
                         </div>
